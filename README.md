@@ -1,6 +1,6 @@
 # garlic-delivery
 
-> The best food delivery by tour mom's version
+> The best food delivery by your mom's version
 
 ## Build Setup
 
