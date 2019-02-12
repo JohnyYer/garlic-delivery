@@ -9,7 +9,9 @@ const DishSchema = new mongoose.Schema({
   image: String,
   sliderImages: [String],
   isSpecial: Boolean,
-  week: [String]
+  week: [String],
+  forStalkanat: Boolean,
+  stalkanatWeek: [String]
 });
 
 module.exports = mongoose.model('Dish', DishSchema);

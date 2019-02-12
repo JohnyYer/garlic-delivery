@@ -24,9 +24,9 @@
               {{ dish.description }}
             </div>
           </div>
-          <div class="storeBottom">
+          <!--<div class="storeBottom">
             <a href="" class="customBtn blueBtn" @click.prevent="addToCart(dish)">в корзину</a>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>

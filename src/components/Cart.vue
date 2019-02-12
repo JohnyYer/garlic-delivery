@@ -6,18 +6,14 @@
           корзина
         </div>
         <div class="menuText">
-          <p>Заказы принимаются и обрабатываются с 10.00 до 22.00.</p>
-          <p>В случае оформления заказа в более ранее, позднее время или в выходные, менеджер свяжется с вами
-            на следующий рабочий день.</p>
+          <p>Обеды доставляются на ваше мероприятие к <b>13:00 и 16:00</b>.
+            </p>
+          <p>Не забудьте выбрать оптимальное для вас время при дальнейшем оформлении заказа.</p>
         </div>
       </div>
       <div class="menuWrapper">
         <div class="basketDataInfo">
           <div class="priceVal">
-            <div class="line">
-              <span class="text">Доставка</span>
-              <span class="price">0 грн</span>
-            </div>
             <div class="line">
               <span class="text">Итого</span>
               <span class="price">758 грн</span>
@@ -68,5 +64,7 @@ export default {
 </script>
 
 <style scoped>
-
+.menuText {
+  text-align: center;
+}
 </style>

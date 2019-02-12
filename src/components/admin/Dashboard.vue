@@ -9,8 +9,7 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+        <b-nav-item href="#">Меню</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -20,7 +19,7 @@
           <template slot="button-content">
             <em>{{userName}}</em>
           </template>
-          <b-dropdown-item @click.prevent="logout()">Signout</b-dropdown-item>
+          <b-dropdown-item @click.prevent="logout()">Выйти</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
@@ -29,8 +28,14 @@
   <b-row>
     <b-col cols="12">
       <b-table striped hover :items="books" :fields="fields">
-        <template slot="actions" slot-scope="row">
-          <b-btn size="sm" @click.stop="details(row.item)">Details</b-btn>
+        <template slot="stalcanatArt" slot-scope="row">
+          <input type="checkbox" :checked="row.item.forStalkanat" @click="addToCastomMenu(row.item, row.item.forStalkanat)">
+        </template>
+        <template slot="stalcanatArtDay" slot-scope="row">
+          <input type="checkbox" :id="row.item._id+'sat'" :checked="row.item.stalkanatWeek && row.item.stalkanatWeek.includes('SAT')" @click="addDay(row.item, 'SAT')">
+          <label :for="row.item._id + 'sat'">CБ</label>
+          <input type="checkbox" :id="row.item._id+'sun'" :checked="row.item.stalkanatWeek && row.item.stalkanatWeek.includes('SUN')" @click="addDay(row.item, 'SUN')">
+          <label :for="row.item._id + 'sun'">ВС</label>
         </template>
       </b-table>
       <ul v-if="errors && errors.length">
@@ -54,15 +59,30 @@ export default {
         name: { label: 'Название', sortable: true, 'class': 'text-center' },
         type: { label: 'Тип', sortable: true },
         ingredients: { label: 'Ингридиенты', sortable: false },
-        actions: { label: 'Действия', 'class': 'text-center' }
+        stalcanatArt: { label: 'Для stalcanatArt', 'class': 'text-center' },
+        stalcanatArtDay: { label: 'День', 'class': 'text-center' }
       },
       books: [],
       errors: [],
-      userName: ''
+      userName: '',
+      status: 'not_accepted',
+      users: []
     }
   },
   created () {
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken')
+    axios.get('/api/auth/users')
+      .then(response => {
+        this.users = response.data
+      })
+      .catch(e => {
+        if (e.response.status === 401) {
+          this.$router.push({
+            name: 'Login'
+          })
+        }
+      })
+
     axios.get(`/api/dish`)
       .then(response => {
         this.books = response.data
@@ -70,11 +90,6 @@ export default {
       })
       .catch(e => {
         this.errors.push(e)
-        if (e.response.status === 401) {
-          this.$router.push({
-            name: 'Login'
-          })
-        }
       })
   },
   methods: {
@@ -84,6 +99,32 @@ export default {
       this.$router.push({
         name: 'Index'
       })
+    },
+    addToCastomMenu (menuItem, stalkanatVal) {
+      menuItem.forStalkanat = !stalkanatVal
+
+      axios.put(`/api/dish/` + menuItem._id, menuItem)
+        .then(response => {
+          console.log('updated')
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
+    },
+    addDay (item, day) {
+      item.stalkanatWeek = item.stalkanatWeek ? item.stalkanatWeek : []
+      if (item.stalkanatWeek && item.stalkanatWeek.includes(day)) {
+        item.stalkanatWeek = item.stalkanatWeek.filter(e => e !== day)
+      } else {
+        item.stalkanatWeek.push(day)
+      }
+      axios.put(`/api/dish/` + item._id, item)
+        .then(response => {
+          console.log('updated')
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
     }
   }
 }

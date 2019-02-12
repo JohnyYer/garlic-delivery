@@ -10,6 +10,7 @@ import Delivery from '@/components/Delivery'
 import Contact from '@/components/Contact'
 import Cart from '@/components/Cart'
 import Order from '@/components/Order'
+import CustomMenu from '@/components/CustomMenu'
 
 Vue.use(Router)
 
@@ -21,6 +22,11 @@ export default new Router({
       name: 'Index',
       component: MainPage,
       children: [
+        {
+          path: '/stalkanatArt',
+          name: 'Stalkanat',
+          component: CustomMenu
+        },
         {
           path: '/menu',
           name: 'Menu',
@@ -51,13 +57,13 @@ export default new Router({
           path: '/order',
           name: 'Order',
           component: Order
+        },
+        {
+          path: '/login',
+          name: 'Login',
+          component: Login
         }
       ]
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
     },
     {
       path: '/register',

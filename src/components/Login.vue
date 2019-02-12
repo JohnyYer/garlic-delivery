@@ -1,4 +1,6 @@
 <template>
+  <div class="singleItem">
+    <div class="container">
   <b-row class="justify-content-md-center">
     <b-col cols="6">
       <div v-if="errors && errors.length">
@@ -11,21 +13,22 @@
                       horizontal
                       :label-cols="4"
                       breakpoint="md"
-                      label="Enter Username">
+                      label="Имя">
           <b-form-input id="username" v-model.trim="login.username"></b-form-input>
         </b-form-group>
         <b-form-group id="fieldsetHorizontal"
                       horizontal
                       :label-cols="4"
                       breakpoint="md"
-                      label="Enter Password">
+                      label="Пароль">
           <b-form-input type="password" id="password" v-model.trim="login.password"></b-form-input>
         </b-form-group>
-        <b-button type="submit" variant="primary">Login</b-button>
-        <b-button type="button" variant="success" @click.stop="register()">Register</b-button>
+        <b-button type="submit" variant="primary">Войти</b-button>
       </b-form>
     </b-col>
   </b-row>
+    </div>
+  </div>
 </template>
 
 <script>

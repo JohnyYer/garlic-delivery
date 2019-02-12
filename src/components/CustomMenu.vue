@@ -31,7 +31,7 @@
         <div class="menuItems">
           <div class="menuItem" v-for="dish in filteredMenu" :key="dish.id">
             <div class="storeItem textCenter">
-            <div class="storePhoto backgroundImage" v-bind:style="{'background-image': 'url(\'/static/'+dish.image+'\')'}">
+              <div class="storePhoto backgroundImage" v-bind:style="{'background-image': 'url(\'/static/'+dish.image+'\')'}">
                 <img src="../assets/img/store-mask.png" alt="" title="">
                 <div class="storeInfo">
                   <div class="tableDiv">
@@ -45,9 +45,9 @@
                 <router-link :to="'/dish/'+dish._id" class="storeTitle">{{ dish.name }}</router-link>
 
                 <div class="storePrice">{{ dish.price }} грн.</div>
-                <!--<div class="storeBottom">
+                <div class="storeBottom">
                   <a href="" @click.prevent="addToCart(dish)" class="storeBuy">в корзину</a>
-                </div>-->
+                </div>
               </div>
             </div>
           </div>
@@ -66,7 +66,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'Menu',
+  name: 'CustomMenu',
   props: ['order'],
   data () {
     return {
@@ -80,7 +80,7 @@ export default {
       ],
       selectedMenuType: { id: 1, name: 'Первые Блюда', state: 'first_dishes' },
       currentDay: '',
-      week: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']
+      week: ['CБ', 'ВС']
     }
   },
   created () {

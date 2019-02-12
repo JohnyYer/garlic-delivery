@@ -36,10 +36,10 @@
             </a>
           </li>
         </ul>
-        <a href="/cart" class="headerShop headerLink">
+<!--        <a href="/cart" class="headerShop headerLink">
           <img src="../assets/img/shop-ico.png" alt="">
           <span>{{order.length}}</span>
-        </a>
+        </a>-->
         <a href="" class="headerPhone headerLink desktopView">
           +38(063) 11-12-13-2
         </a>
@@ -48,17 +48,23 @@
     <slick class="headerSlider" :options="slickOptions" >
       <div class="slide">
         <div class="slideTitle">
-          <span>Лучшая доставка обедов</span>
+          Лучшая доставка по версии
+          <p>НАШЕЙ МАМЫ*</p>
+          <span class="quot">*Одессы Мамы=)</span>
         </div>
       </div>
       <div class="slide">
         <div class="slideTitle">
-          <span>Лучшая доставка обедов</span>
+          Лучшая доставка по версии
+          <p>НАШЕЙ МАМЫ*</p>
+          <span class="quot">*Одессы Мамы=)</span>
         </div>
       </div>
       <div class="slide">
         <div class="slideTitle">
-          <span>Лучшая доставка обедов</span>
+          Лучшая доставка по версии
+          <p>НАШЕЙ МАМЫ*</p>
+          <span class="quot">*Одессы Мамы=)</span>
         </div>
       </div>
     </slick>
@@ -91,11 +97,9 @@
 
   </div>
   <div class="defaultImageSection">
-    <div class="smallImage imageSection backgroundImage" style="background-image:url('/static/img/footer-image1.jpg');">
-
+    <div class="smallImage imageSection backgroundImage" style="background-image:url('/static/garnish/kartofel_otvarnoi_s_zelenyu/img0100.jpg');">
     </div>
-    <div class="largeImage imageSection backgroundImage" style="background-image:url('/static/img/footer-image2.jpg');">
-
+    <div class="largeImage imageSection backgroundImage" style="background-image:url('/static/main_dishes/pork/kolbaski_munhenskie/img0088.jpg');">
     </div>
   </div>
   <div class="footer">
@@ -228,5 +232,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.quot {
+  font: 27px "robotobold";
+  right: -20%;
+  bottom: -30%;
+  position: absolute;
+}
 </style>
