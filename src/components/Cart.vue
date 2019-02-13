@@ -1,7 +1,7 @@
 <template>
   <div class="complexSection defaultSection largeBottomPadding">
     <div class="container">
-      <div class="menuSideBar noMargin shopSideBar">
+      <div class="menuSideBar noMargin shopSideBar" style="z-index: 0;">
         <div class="customTitle">
           корзина
         </div>

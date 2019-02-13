@@ -3,13 +3,13 @@
   <div class="header" v-bind:class="{'noSlider': $route.name !== 'Index', 'scrolledHeader': isScrolable}">
     <div class="headerNav">
       <div class="container">
-        <div class="menu__burger">
+        <div class="menu__burger" :class="{'active': mainMobileMenu}" @click="mainMobileMenu = !mainMobileMenu">
           <span></span>
         </div>
         <a href="/" class="headerLogo">
           <img src="../assets/img/header-logo.png" alt="" title="">
         </a>
-        <ul>
+        <ul :class="{'open-nav' : mainMobileMenu}">
           <li>
             <a href="/" v-bind:class="{'active': $route.name === 'Index'}" >
               главная
@@ -208,7 +208,8 @@ export default {
       },
       featuredDishes: [],
       order: JSON.parse(localStorage.getItem('order')) || [],
-      isScrolable: false
+      isScrolable: false,
+      mainMobileMenu: false
     }
   },
   methods: {
