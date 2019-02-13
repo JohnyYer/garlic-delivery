@@ -71,6 +71,7 @@ export default {
 
       axios.post(`/api/order`, this.orderDetails)
         .then(response => {
+          localStorage.setItem('order', JSON.stringify([]))
           alert('Заказ успешно оформлен')
           this.$router.push({
             name: 'Stalkanat'
