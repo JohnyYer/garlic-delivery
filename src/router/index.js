@@ -11,6 +11,7 @@ import Contact from '@/components/Contact'
 import Cart from '@/components/Cart'
 import Order from '@/components/Order'
 import CustomMenu from '@/components/CustomMenu'
+import Orders from '@/components/admin/Orders'
 
 Vue.use(Router)
 
@@ -74,6 +75,11 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: Dashboard
+    },
+    {
+      path: '/orders',
+      name: 'Orders',
+      component: Orders
     }
   ]
 })

@@ -7,8 +7,7 @@ let bodyParser = require('body-parser');
 let book = require('./routes/book');
 const dish = require('./routes/dish');
 var auth = require('./routes/auth');
-
-
+const order = require('./routes/order')
 
 let app = express();
 let mongoose = require('mongoose');
@@ -24,6 +23,7 @@ app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/api/dish', dish);
 app.use('/api/auth', auth);
+app.use('/api/order', order);
 app.use('*', express.static(path.join(__dirname, 'dist')))
 
 // catch 404 and forward to error handler

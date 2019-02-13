@@ -9,7 +9,9 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav>
-        <b-nav-item href="#">Меню</b-nav-item>
+        <b-nav-item href="/admin">Меню</b-nav-item>
+        <b-nav-item href="/orders">Заказы</b-nav-item>
+
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->

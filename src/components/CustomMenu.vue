@@ -20,11 +20,11 @@
 
         <div class="daysItems">
           <div class="dayItem"
-               :key="day"
+               :key="day.label"
                v-for="day in week"
-               :class="{'active': day === currentDay}"
-               @click="selectMenuByDay(day)">
-            <div>{{ day }}</div>
+               :class="{'active': day.value === currentDay}"
+               @click="selectMenuByDay(day.value)">
+            <div>{{ day.label }}</div>
           </div>
         </div>
 
@@ -67,7 +67,7 @@ import axios from 'axios'
 
 export default {
   name: 'CustomMenu',
-  props: ['order'],
+  props: ['order', 'scrollHeader'],
   data () {
     return {
       dishes: [],
@@ -79,16 +79,18 @@ export default {
         { id: 4, name: 'Гарниры', state: 'garnishes' }
       ],
       selectedMenuType: { id: 1, name: 'Первые Блюда', state: 'first_dishes' },
-      currentDay: '',
-      week: ['CБ', 'ВС']
+      currentDay: 'SAT',
+      week: [
+        {label: 'СБ', value: 'SAT'},
+        {label: 'ВС', value: 'SUN'}
+      ],
+      someProp: false
     }
   },
   created () {
     axios.get(`/api/dish`)
       .then(response => {
         this.dishes = response.data
-        const today = new Date().getDay()
-        this.currentDay = this.week[today] ? this.week[today] : this.week[0]
       })
       .catch(e => {
         this.errors.push(e)
@@ -102,7 +104,7 @@ export default {
   computed: {
     filteredMenu () {
       return this.dishes.filter(dish => {
-        return (dish.type === this.selectedMenuType.state) && dish.week.includes(this.currentDay)
+        return (dish.type === this.selectedMenuType.state) && dish.forStalkanat && dish.stalkanatWeek.includes(this.currentDay)
       })
     }
   },
@@ -118,11 +120,16 @@ export default {
       this.currentDay = day
     },
     addToCart (dish) {
-      let oldItems = JSON.parse(localStorage.getItem('order')) || []
       this.order.push(dish)
-      oldItems.push(dish)
-      localStorage.setItem('order', JSON.stringify(oldItems))
+      localStorage.setItem('order', JSON.stringify(this.order))
+    },
+    handleScroll () {
+      let isScrolable = window.scrollY >= 120
+      this.$emit('scroll-header', isScrolable)
     }
+  },
+  beforeMount () {
+    window.addEventListener('scroll', this.handleScroll)
   }
 }
 </script>

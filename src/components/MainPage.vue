@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="header" v-bind:class="{'noSlider': $route.name !== 'Index'}">
+  <div class="header" v-bind:class="{'noSlider': $route.name !== 'Index', 'scrolledHeader': isScrolable}">
     <div class="headerNav">
       <div class="container">
         <div class="menu__burger">
@@ -36,10 +36,10 @@
             </a>
           </li>
         </ul>
-<!--        <a href="/cart" class="headerShop headerLink">
+        <a v-if="$route.name === 'Stalkanat'" href="/cart" class="headerShop headerLink">
           <img src="../assets/img/shop-ico.png" alt="">
           <span>{{order.length}}</span>
-        </a>-->
+        </a>
         <a href="" class="headerPhone headerLink desktopView">
           +38(063) 11-12-13-2
         </a>
@@ -69,7 +69,7 @@
       </div>
     </slick>
   </div>
-  <router-view v-bind:order="order"></router-view>
+  <router-view v-bind:order="order" v-on:scroll-header="scrollHeader"></router-view>
   <div v-if="$route.name === 'Index'" class="promoSection defaultSection">
 
     <slick class="promoSlider " :options="promoSlideConfig" v-if="featuredDishes.length > 1">
@@ -207,7 +207,13 @@ export default {
         ]
       },
       featuredDishes: [],
-      order: JSON.parse(localStorage.getItem('order')) || []
+      order: JSON.parse(localStorage.getItem('order')) || [],
+      isScrolable: false
+    }
+  },
+  methods: {
+    scrollHeader (param) {
+      this.isScrolable = param
     }
   },
   created () {
@@ -237,5 +243,21 @@ export default {
   right: -20%;
   bottom: -30%;
   position: absolute;
+}
+
+.scrolledHeader {
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  animation: smoothScroll 1s forwards;
+}
+@keyframes smoothScroll {
+  0% {
+    transform: translateY(-120px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 </style>
