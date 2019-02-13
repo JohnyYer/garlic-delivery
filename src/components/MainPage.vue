@@ -16,7 +16,7 @@
             </a>
           </li>
           <li>
-            <a href="/menu" v-bind:class="{'active': $route.name === 'Menu'}">
+            <a href="/menu" v-if="$route.name !== 'Stalkanat'" v-bind:class="{'active': $route.name === 'Menu'}">
               меню
             </a>
           </li>
