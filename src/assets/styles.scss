@@ -934,7 +934,7 @@ $robotoRegular: 'robotoregular';
     margin-bottom: 60px;
     .priceVal{
       max-width: 500px;
-      width: 100%;
+      width: 40%;
       float: left;
       .line{
         width: 100%;
@@ -943,7 +943,7 @@ $robotoRegular: 'robotoregular';
           text-transform: uppercase;
           color: #111;
           font: 24px/48px $robotoMedium;
-          width: 170px;
+          width: 185px;
           display: inline-block;
         }
         .price{
@@ -955,9 +955,8 @@ $robotoRegular: 'robotoregular';
       }
     }
     .processedBtn{
-      float: left;
       max-width: 170px;
-      margin-top: 27px;
+      float: right;
     }
   }
 }
@@ -1310,6 +1309,7 @@ $robotoRegular: 'robotoregular';
   }
   .menuWrapper .basketDataInfo .priceVal {
     max-width: 300px;
+    width: 100%;
   }
   .menuWrapper .basketDataInfo .processedBtn{
     float: right;
@@ -1334,9 +1334,6 @@ $robotoRegular: 'robotoregular';
 
   .mobileView{
     display: block !important;
-  }
-  body{
-    padding-top: 60px;
   }
 
   .menu__burger {

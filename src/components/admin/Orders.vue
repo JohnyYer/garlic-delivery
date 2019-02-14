@@ -26,39 +26,51 @@
 
     </b-collapse>
   </b-navbar>
-  <b-row>
-    <b-col cols="12">
-      <b-table responsive striped hover :items="orderDetails" :fields="fields">
-        <template slot="order" slot-scope="row">
-          <p :key="index" v-for="(dish, index) in row.item.order">{{dish.name}}</p>
-        </template>
-        <template slot="row-details" slot-scope="row">
-          <b-card>
-            <ul>
-              <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value}}</li>
-            </ul>
-          </b-card>
-        </template>
-      </b-table>
-      <b-card-group deck
-                    class="mb-3">
-        <b-card :key="item._id" v-for="item in orderDetails"
-                :header="item.phone"
-                class="text-center">
-          <ol>
-            <li :key="index" v-for="(dish, index) in item.order">
-              <p class="card-text">{{dish.name}}</p>
+    <div class="container">
+      <b-row class="text-center">
+        <b-col cols="12">
+          <b-button-group>
+            <b-button @click="dayForOrder = 'SAT'" :variant="dayForOrder === 'SAT' ? 'success' : ''">СБ</b-button>
+            <b-button @click="dayForOrder = 'SUN'" :variant="dayForOrder === 'SUN' ? 'success' : ''">ВС</b-button>
+          </b-button-group>
+
+          <b-card-group deck
+                        class="mb-3">
+
+            <b-card no-body
+                    :key="item._id"
+                    v-for="item in orderDetails"
+                    class="text-center">
+
+              <b-card-header class="bg-primary text-white">{{item.name ? item.name : 'ВАЛЕРЧИК'}}</b-card-header>
+
+              <b-list-group flush>
+                <b-list-group-item><strong>Тел: </strong>{{item.phone}}</b-list-group-item>
+                <b-list-group-item><strong>Адрес: </strong>{{item.street}}</b-list-group-item>
+                <b-list-group-item><strong>Комментарий: </strong>{{item.comment}}</b-list-group-item>
+              </b-list-group>
+
+              <b-card-body>
+                <ol>
+                  <li v-if="detectDishByDat(dish)" :key="index" v-for="(dish, index) in item.order">
+                    <p class="card-text">{{dish.name}}</p>
+                  </li>
+                </ol>
+              </b-card-body>
+
+              <b-card-footer><strong>{{dayForOrder === 'SAT' ? 'Суббота' : 'Воскресенье'}}</strong></b-card-footer>
+
+            </b-card>
+
+          </b-card-group>
+          <ul v-if="errors && errors.length">
+            <li v-for="error of errors" v-bind:key="error.message">
+              {{error.message}}
             </li>
-          </ol>
-        </b-card>
-      </b-card-group>
-      <ul v-if="errors && errors.length">
-        <li v-for="error of errors" v-bind:key="error.message">
-          {{error.message}}
-        </li>
-      </ul>
-    </b-col>
-  </b-row>
+          </ul>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -69,16 +81,10 @@ export default {
   name: 'Dashboard',
   data () {
     return {
-      fields: {
-        street: { label: 'Адресс', sortable: true, 'class': 'text-center' },
-        time: { label: 'Время', sortable: true },
-        phone: { label: 'Номер телефона', sortable: false },
-        comment: { label: 'Комментарий', 'class': 'text-center' },
-        order: { label: 'Блюда', 'class': 'text-center' }
-      },
       orderDetails: [],
       userName: '',
-      errors: []
+      errors: [],
+      dayForOrder: 'SAT'
     }
   },
   created () {
@@ -111,11 +117,19 @@ export default {
       this.$router.push({
         name: 'Index'
       })
+    },
+    detectDishByDat (dish) {
+      return dish.stalkanatWeek.includes(this.dayForOrder)
     }
   }
 }
 </script>
 
 <style scoped>
-
+.container {
+  margin-top: 50px;
+}
+  li {
+    text-align: left;
+  }
 </style>
