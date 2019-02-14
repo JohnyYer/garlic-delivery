@@ -15,18 +15,9 @@
             </table>
           </div>
           <div class="deliveryInfo">
-              <div class="deliverySubTitle">Время доставки</div>
-              <div class="inlineBlock mr70">
-                <div class="customCheckbox">
-                  <input type="radio" id="cache" name="time" value="13" v-model="orderDetails.time">
-                  <label for="cache">13:00</label>
-                </div>
-              </div>
-              <div class="inlineBlock">
-                <div class="customCheckbox">
-                  <input type="radio" id="card" name="time" value="16" v-model="orderDetails.time">
-                  <label for="card">16:00</label>
-                </div>
+              <div class="deliverySubTitle">Имя</div>
+              <div class="customInput largeInput">
+                <input type="text" placeholder="" v-model="orderDetails.name">
               </div>
               <div class="deliverySubTitle">Ваш номер телефона</div>
               <div class="customInput largeInput">

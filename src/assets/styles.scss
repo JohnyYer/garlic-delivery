@@ -1634,8 +1634,13 @@ $robotoRegular: 'robotoregular';
 }
 
 @media screen and (max-width: 820px){
+  .defaultImageSection {
+    &:before {
+      height: 54%;
+    }
+  }
   .header{
-    height: 400px;
+    height: 300px;
     .headerNav{
       .headerLogo{
         img{
@@ -1645,26 +1650,7 @@ $robotoRegular: 'robotoregular';
     }
     .headerSlider{
       .slick-dots{
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        -webkit-transform: translateX(-50%);
-        -moz-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-        -o-transform: translateX(-50%);
-        transform: translateX(-50%);
-        li{
-          width: auto;
-          margin:  0 5px;
-          &.slick-active{
-            button{
-              color: #72a2d4;
-            }
-            &:after{
-              background: #72a2d4;
-            }
-          }
-        }
+        display: none!important;
       }
       .slide{
         height: 300px;
@@ -1735,8 +1721,12 @@ $robotoRegular: 'robotoregular';
     }
   }
   .header .headerSlider .slide .slideTitle {
-    font-size: 36px;
-    line-height: 36px;
+    font-size: 33px;
+    line-height: 29px;
+    .quot {
+      font-size: 15px;
+      right: -45%;
+    }
   }
   .header .headerSlider .slide .slideTitle:before{
     max-width: 40%;

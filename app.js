@@ -4,7 +4,6 @@ let favicon = require('serve-favicon');
 let logger = require('morgan');
 let bodyParser = require('body-parser');
 
-let book = require('./routes/book');
 const dish = require('./routes/dish');
 var auth = require('./routes/auth');
 const order = require('./routes/order')

@@ -28,11 +28,30 @@
   </b-navbar>
   <b-row>
     <b-col cols="12">
-      <b-table striped hover :items="orderDetails" :fields="fields">
+      <b-table responsive striped hover :items="orderDetails" :fields="fields">
         <template slot="order" slot-scope="row">
           <p :key="index" v-for="(dish, index) in row.item.order">{{dish.name}}</p>
         </template>
+        <template slot="row-details" slot-scope="row">
+          <b-card>
+            <ul>
+              <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value}}</li>
+            </ul>
+          </b-card>
+        </template>
       </b-table>
+      <b-card-group deck
+                    class="mb-3">
+        <b-card :key="item._id" v-for="item in orderDetails"
+                :header="item.phone"
+                class="text-center">
+          <ol>
+            <li :key="index" v-for="(dish, index) in item.order">
+              <p class="card-text">{{dish.name}}</p>
+            </li>
+          </ol>
+        </b-card>
+      </b-card-group>
       <ul v-if="errors && errors.length">
         <li v-for="error of errors" v-bind:key="error.message">
           {{error.message}}

@@ -50,21 +50,21 @@
         <div class="slideTitle">
           Лучшая доставка по версии
           <p>НАШЕЙ МАМЫ*</p>
-          <span class="quot">*Одессы Мамы=)</span>
+          <span class="quot">*Одессы-Мамы=)</span>
         </div>
       </div>
       <div class="slide">
         <div class="slideTitle">
           Лучшая доставка по версии
           <p>НАШЕЙ МАМЫ*</p>
-          <span class="quot">*Одессы Мамы=)</span>
+          <span class="quot">*Одессы-Мамы=)</span>
         </div>
       </div>
       <div class="slide">
         <div class="slideTitle">
           Лучшая доставка по версии
           <p>НАШЕЙ МАМЫ*</p>
-          <span class="quot">*Одессы Мамы=)</span>
+          <span class="quot">*Одессы-Мамы=)</span>
         </div>
       </div>
     </slick>
