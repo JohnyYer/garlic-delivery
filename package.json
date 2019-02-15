@@ -12,11 +12,14 @@
     "server": "node bin/www"
   },
   "dependencies": {
+    "@babel/runtime": "^7.3.1",
     "axios": "^0.18.0",
+    "babel-core": "^6.22.1",
+    "babel-runtime": "^6.26.0",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.11",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
@@ -32,7 +35,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
-    "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
@@ -74,7 +76,7 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.5.2",
+    "vue-template-compiler": "^2.6.6",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
