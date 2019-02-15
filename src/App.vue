@@ -19,6 +19,9 @@ export default {
   .slide{
     background-image: url("./assets/img/slide.jpg");
   }
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import '../node_modules/bootstrap-vue/src/index.scss';
 @import "assets/styles";
 @import "../node_modules/slick-carousel/slick/slick.css";
+
 </style>

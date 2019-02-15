@@ -10,9 +10,11 @@ const order = require('./routes/order')
 
 let app = express();
 let mongoose = require('mongoose');
+let dbUSER = process.env.DB_USER || '';
+let dbPass = process.env.DB_PASSWORD || '';
 
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://garlic:yaradrim1991@ds161411.mlab.com:61411/garlic', { promiseLibrary: require('bluebird'), useNewUrlParser: true  })
+mongoose.connect('mongodb://'+dbUSER+':'+dbPass+'@ds161411.mlab.com:61411/garlic', { promiseLibrary: require('bluebird'), useNewUrlParser: true  })
 .then(() =>  console.log('connection succesful'))
 .catch((err) => console.error(err));
 
