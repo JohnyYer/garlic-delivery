@@ -7,7 +7,8 @@ const OrderSchema = new mongoose.Schema({
   street: String,
   time: String,
   order: Array,
-  updated_date: { type: Date, default: Date.now }
+  updated_date: { type: Date, default: Date.now },
+  seen: Boolean
 })
 
 module.exports = mongoose.model('Order', OrderSchema);

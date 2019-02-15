@@ -42,7 +42,10 @@
                     v-for="item in orderDetails"
                     class="text-center">
 
-              <b-card-header class="bg-primary text-white">{{item.name ? item.name : 'ВАЛЕРЧИК'}}</b-card-header>
+              <b-card-header class="bg-primary text-white">
+                {{item.name ? item.name : 'ВАЛЕРЧИК'}}
+                <input type="checkbox" :checked="item.seen" @click="checkIfSeen(item, item.seen)">
+              </b-card-header>
 
               <b-list-group flush>
                 <b-list-group-item><strong>Тел: </strong>{{item.phone}}</b-list-group-item>
@@ -120,16 +123,36 @@ export default {
     },
     detectDishByDat (dish) {
       return dish.stalkanatWeek.includes(this.dayForOrder)
+    },
+    checkIfSeen (order, seen) {
+      order.seen = !seen
+
+      axios.put(`/api/order/` + order._id, order)
+        .then(response => {
+          console.log('updated')
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
     }
   }
 }
 </script>
 
-<style scoped>
-.container {
-  margin-top: 50px;
-}
+<style lang="scss" scoped>
+  .container {
+    margin-top: 50px;
+  }
   li {
     text-align: left;
+  }
+  .card-header {
+    input {
+      float: right;
+      height: 24px;
+    }
+  }
+  .btn-group {
+    margin-bottom: 20px;
   }
 </style>
