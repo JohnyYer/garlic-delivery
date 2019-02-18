@@ -43,20 +43,20 @@
                     class="text-center">
 
               <b-card-header class="bg-primary text-white">
-                {{item.name ? item.name : 'ВАЛЕРЧИК'}}
+                {{item.street ? item.street : 'ВАЛЕРЧИК'}}
                 <input type="checkbox" :checked="item.seen" @click="checkIfSeen(item, item.seen)">
               </b-card-header>
 
               <b-list-group flush>
                 <b-list-group-item><strong>Тел: </strong>{{item.phone}}</b-list-group-item>
-                <b-list-group-item><strong>Адрес: </strong>{{item.street}}</b-list-group-item>
+                <b-list-group-item><strong>Имя: </strong>{{item.name}}</b-list-group-item>
                 <b-list-group-item><strong>Комментарий: </strong>{{item.comment}}</b-list-group-item>
               </b-list-group>
 
               <b-card-body>
                 <ol>
                   <li v-if="detectDishByDat(dish)" :key="index" v-for="(dish, index) in item.order">
-                    <p class="card-text">{{dish.name}}</p>
+                    <p class="card-text">{{dish.name}} <strong>({{dish.price}})</strong></p>
                   </li>
                 </ol>
               </b-card-body>

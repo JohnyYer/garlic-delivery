@@ -1,50 +1,139 @@
 <template>
   <div>
     <b-navbar toggleable="md" type="dark" variant="info">
-
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
       <b-navbar-brand href="#">NavBar</b-navbar-brand>
-
       <b-collapse is-nav id="nav_collapse">
-
         <b-navbar-nav>
-          <b-nav-item href="#">Меню</b-nav-item>
+          <b-nav-item href="/admin">Меню</b-nav-item>
+          <b-nav-item href="/orders">Заказы</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
+
             <!-- Using button-content slot -->
             <template slot="button-content">
               <em>{{userName}}</em>
             </template>
+
             <b-dropdown-item @click.prevent="logout()">Выйти</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
       </b-collapse>
     </b-navbar>
-    <b-row>
-      <b-col cols="12">
-        <b-table striped hover :items="books" :fields="fields">
-          <template slot="stalcanatArt" slot-scope="row">
-            <input type="checkbox" :checked="row.item.forStalkanat" @click="addToCastomMenu(row.item, row.item.forStalkanat)">
-          </template>
-          <template slot="stalcanatArtDay" slot-scope="row">
-            <input type="checkbox" :id="row.item._id+'sat'" :checked="row.item.stalkanatWeek && row.item.stalkanatWeek.includes('SAT')" @click="addDay(row.item, 'SAT')">
-            <label :for="row.item._id + 'sat'">CБ</label>
-            <input type="checkbox" :id="row.item._id+'sun'" :checked="row.item.stalkanatWeek && row.item.stalkanatWeek.includes('SUN')" @click="addDay(row.item, 'SUN')">
-            <label :for="row.item._id + 'sun'">ВС</label>
-          </template>
-        </b-table>
-        <ul v-if="errors && errors.length">
-          <li v-for="error of errors" v-bind:key="error.message">
-            {{error.message}}
-          </li>
-        </ul>
-      </b-col>
-    </b-row>
+    <!-- Main container -->
+    <b-container>
+      <b-row>
+        <b-col md="6" class="my-1">
+          <b-form-group label-cols-sm="3" label="Фильтр" class="mb-0">
+            <b-input-group>
+              <b-form-input v-model="filter" placeholder="По названию" />
+              <b-input-group-append>
+                <b-button :disabled="!filter" @click="filter = ''">Отчистить</b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+
+        <!--<b-col md="6" class="my-1">-->
+          <!--<b-form-group label-cols-sm="3" label="Sort" class="mb-0">-->
+            <!--<b-input-group>-->
+              <!--<b-form-select v-model="sortBy" :options="sortOptions">-->
+                <!--<option slot="first" :value="null">&#45;&#45; none &#45;&#45;</option>-->
+              <!--</b-form-select>-->
+              <!--<b-form-select :disabled="!sortBy" v-model="sortDesc" slot="append">-->
+                <!--<option :value="false">Asc</option> <option :value="true">Desc</option>-->
+              <!--</b-form-select>-->
+            <!--</b-input-group>-->
+          <!--</b-form-group>-->
+        <!--</b-col>-->
+
+        <!--<b-col md="6" class="my-1">-->
+          <!--<b-form-group label-cols-sm="3" label="Sort direction" class="mb-0">-->
+            <!--<b-input-group>-->
+              <!--<b-form-select v-model="sortDirection" slot="append">-->
+                <!--<option value="asc">Asc</option> <option value="desc">Desc</option>-->
+                <!--<option value="last">Last</option>-->
+              <!--</b-form-select>-->
+            <!--</b-input-group>-->
+          <!--</b-form-group>-->
+        <!--</b-col>-->
+
+        <!--<b-col md="6" class="my-1">-->
+          <!--<b-form-group label-cols-sm="3" label="Per page" class="mb-0">-->
+            <!--<b-form-select :options="pageOptions" v-model="perPage" />-->
+          <!--</b-form-group>-->
+        <!--</b-col>-->
+      </b-row>
+
+      <b-row>
+        <b-col cols="12">
+          <b-card-group deck class="mb-3">
+            <b-card
+              v-for="dish in filteredMenu"
+              :key="dish._id"
+              no-body
+              :img-src="'/static'+dish.image"
+              img-alt="Image"
+              img-top
+            >
+              <h4 slot="header">{{dish.name}}</h4>
+
+              <b-card-body>{{dish.ingredients}}</b-card-body>
+
+              <b-card-body>
+                <b-button class="card-link" @click="editDish(dish)" v-b-modal.modal1>Редактировать</b-button>
+              </b-card-body>
+
+            </b-card>
+          </b-card-group>
+          <ul v-if="errors && errors.length">
+            <li v-for="error of errors" v-bind:key="error.message">
+              {{error.message}}
+            </li>
+          </ul>
+        </b-col>
+      </b-row>
+
+      <!-- Modal Component -->
+      <b-modal id="modal1" size="lg" @ok="saveDish(currentDish)" :title="currentDish.name">
+
+        <b-form-group label-cols="4" label-cols-lg="2" label="Название" label-for="name">
+          <b-form-input id="name" v-model="currentDish.name" />
+        </b-form-group>
+        <b-form-group label-cols="4" label-cols-lg="2" label="Ингредиенты" label-for="ingredients">
+          <b-form-input id="ingredients" v-model="currentDish.ingredients" />
+        </b-form-group>
+        <b-form-group label-cols="4" label-cols-lg="2" label="Описание" label-for="description">
+          <b-form-input id="description" v-model="currentDish.description" />
+        </b-form-group>
+        <b-form-group label-cols="4" label-cols-lg="2" label="Цена" label-for="price">
+          <b-form-input id="price" v-model="currentDish.price" />
+        </b-form-group>
+
+        <b-form-group label="Дни недели">
+          <b-form-checkbox-group
+            id="week"
+            name="week"
+            v-model="currentDish.week"
+            :options="week"
+          />
+        </b-form-group>
+
+        <b-form-checkbox
+          id="forStalkanat"
+          v-model="currentDish.forStalkanat"
+          name="forStalkanat"
+        >
+          Для СтальканатART
+        </b-form-checkbox>
+
+      </b-modal>
+    </b-container>
+
   </div>
 </template>
 
@@ -55,18 +144,13 @@ export default {
   name: 'Dashboard',
   data () {
     return {
-      fields: {
-        name: { label: 'Название', sortable: true, 'class': 'text-center' },
-        type: { label: 'Тип', sortable: true },
-        ingredients: { label: 'Ингридиенты', sortable: false },
-        stalcanatArt: { label: 'Для stalcanatArt', 'class': 'text-center' },
-        stalcanatArtDay: { label: 'День', 'class': 'text-center' }
-      },
-      books: [],
+      dishes: [],
       errors: [],
       userName: '',
-      status: 'not_accepted',
-      users: []
+      users: [],
+      currentDish: {},
+      week: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ'],
+      filter: ''
     }
   },
   created () {
@@ -85,7 +169,7 @@ export default {
 
     axios.get(`/api/dish`)
       .then(response => {
-        this.books = response.data
+        this.dishes = response.data
         this.userName = localStorage.getItem('userName')
       })
       .catch(e => {
@@ -100,25 +184,11 @@ export default {
         name: 'Index'
       })
     },
-    addToCastomMenu (menuItem, stalkanatVal) {
-      menuItem.forStalkanat = !stalkanatVal
-
-      axios.put(`/api/dish/` + menuItem._id, menuItem)
-        .then(response => {
-          console.log('updated')
-        })
-        .catch(e => {
-          this.errors.push(e)
-        })
+    editDish (dish) {
+      this.currentDish = dish
     },
-    addDay (item, day) {
-      item.stalkanatWeek = item.stalkanatWeek ? item.stalkanatWeek : []
-      if (item.stalkanatWeek && item.stalkanatWeek.includes(day)) {
-        item.stalkanatWeek = item.stalkanatWeek.filter(e => e !== day)
-      } else {
-        item.stalkanatWeek.push(day)
-      }
-      axios.put(`/api/dish/` + item._id, item)
+    saveDish (dish) {
+      axios.put(`/api/dish/` + dish._id, dish)
         .then(response => {
           console.log('updated')
         })
@@ -126,10 +196,21 @@ export default {
           this.errors.push(e)
         })
     }
+  },
+  computed: {
+    filteredMenu () {
+      return this.dishes.filter(dish => dish.name.toLowerCase().search(this.filter.toLowerCase()) >= 0)
+    }
   }
 }
 </script>
 
 <style scoped>
-
+  .container {
+    margin-top: 20px;
+  }
+  .card {
+    min-width: 20rem;
+    margin-bottom: 20px;
+  }
 </style>
