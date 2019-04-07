@@ -7,6 +7,7 @@
         <b-navbar-nav>
           <b-nav-item href="/admin">Меню</b-nav-item>
           <b-nav-item href="/orders">Заказы</b-nav-item>
+          <b-nav-item href='/tables'>На печать</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -25,48 +26,28 @@
       </b-collapse>
     </b-navbar>
     <!-- Main container -->
-    <b-container>
-      <b-row>
+    <b-container fluid>
+      <b-row class="filter">
         <b-col md="6" class="my-1">
           <b-form-group label-cols-sm="3" label="Фильтр" class="mb-0">
             <b-input-group>
-              <b-form-input v-model="filter" placeholder="По названию" />
+              <b-form-input v-model="filter.name" placeholder="По названию" />
               <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Отчистить</b-button>
+                <b-button :disabled="!filter.name" @click="filter.name = ''">Отчистить</b-button>
               </b-input-group-append>
             </b-input-group>
           </b-form-group>
         </b-col>
 
-        <!--<b-col md="6" class="my-1">-->
-          <!--<b-form-group label-cols-sm="3" label="Sort" class="mb-0">-->
-            <!--<b-input-group>-->
-              <!--<b-form-select v-model="sortBy" :options="sortOptions">-->
-                <!--<option slot="first" :value="null">&#45;&#45; none &#45;&#45;</option>-->
-              <!--</b-form-select>-->
-              <!--<b-form-select :disabled="!sortBy" v-model="sortDesc" slot="append">-->
-                <!--<option :value="false">Asc</option> <option :value="true">Desc</option>-->
-              <!--</b-form-select>-->
-            <!--</b-input-group>-->
-          <!--</b-form-group>-->
-        <!--</b-col>-->
+        <b-col md="6" class="my-1">
+          <b-form-group label-cols-sm="3" label="Тип" class="mb-0">
+            <b-input-group>
+              <b-form-select v-model="filter.type" :options="menuTypes">
+              </b-form-select>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
 
-        <!--<b-col md="6" class="my-1">-->
-          <!--<b-form-group label-cols-sm="3" label="Sort direction" class="mb-0">-->
-            <!--<b-input-group>-->
-              <!--<b-form-select v-model="sortDirection" slot="append">-->
-                <!--<option value="asc">Asc</option> <option value="desc">Desc</option>-->
-                <!--<option value="last">Last</option>-->
-              <!--</b-form-select>-->
-            <!--</b-input-group>-->
-          <!--</b-form-group>-->
-        <!--</b-col>-->
-
-        <!--<b-col md="6" class="my-1">-->
-          <!--<b-form-group label-cols-sm="3" label="Per page" class="mb-0">-->
-            <!--<b-form-select :options="pageOptions" v-model="perPage" />-->
-          <!--</b-form-group>-->
-        <!--</b-col>-->
       </b-row>
 
       <b-row>
@@ -150,7 +131,17 @@ export default {
       users: [],
       currentDish: {},
       week: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ'],
-      filter: ''
+      menuTypes: [
+        { id: 1, text: 'Первые Блюда', value: 'first_dishes' },
+        { id: 2, text: 'Салаты', value: 'salads' },
+        { id: 3, text: 'Основное Горячее', value: 'main_dishes' },
+        { id: 4, text: 'Гарниры', value: 'garnishes' }
+      ],
+      filter: {
+        name: '',
+        day: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ'],
+        type: 'first_dishes'
+      }
     }
   },
   created () {
@@ -199,7 +190,11 @@ export default {
   },
   computed: {
     filteredMenu () {
-      return this.dishes.filter(dish => dish.name.toLowerCase().search(this.filter.toLowerCase()) >= 0)
+      return this.dishes.filter(
+        dish => {
+          return dish.name.toLowerCase().search(this.filter.name.toLowerCase() >= 0) &&
+            dish.type === this.filter.type
+        })
     }
   }
 }
@@ -212,5 +207,9 @@ export default {
   .card {
     min-width: 20rem;
     margin-bottom: 20px;
+  }
+
+  .filter {
+    padding: 20px;
   }
 </style>

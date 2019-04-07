@@ -12,6 +12,7 @@ import Cart from '@/components/Cart'
 import Order from '@/components/Order'
 import CustomMenu from '@/components/CustomMenu'
 import Orders from '@/components/admin/Orders'
+import GoogleTables from '@/components/admin/GoogleTables'
 
 Vue.use(Router)
 
@@ -80,6 +81,11 @@ export default new Router({
       path: '/orders',
       name: 'Orders',
       component: Orders
+    },
+    {
+      path: '/tables',
+      name: 'DeliveryTables',
+      component: GoogleTables
     }
   ]
 })
