@@ -42,9 +42,42 @@
               </b-card-header>
 
               <b-list-group flush>
+                <b-list-group-item>
+                  <strong>САЛАТЫ</strong>
+                </b-list-group-item>
                 <b-list-group-item
                   :key="order.dish"
-                  v-for="order in OrderListFirst"><strong>{{order.dish}} -- {{order.qty}}</strong></b-list-group-item>
+                  v-for="order in OrderListFirst.salads">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
+                <b-list-group-item>
+                  <strong>МЯСО</strong>
+                </b-list-group-item>
+                <b-list-group-item
+                  :key="order.dish"
+                  v-for="order in OrderListFirst.meat">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
+                <b-list-group-item>
+                  <strong>ГАРНИР</strong>
+                </b-list-group-item>
+                <b-list-group-item
+                  :key="order.dish"
+                  v-for="order in OrderListFirst.garnish">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
+                <b-list-group-item>
+                  <strong>ВТОРОЕ</strong>
+                </b-list-group-item>
+                <b-list-group-item
+                  :key="order.dish"
+                  v-for="order in OrderListFirst.second">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
               </b-list-group>
 
             </b-card>
@@ -52,13 +85,46 @@
             <b-card no-body class="text-center">
 
               <b-card-header class="bg-primary text-white">
-                Второе направление
+                Второе Направление
               </b-card-header>
 
               <b-list-group flush>
+                <b-list-group-item>
+                  <strong>САЛАТЫ</strong>
+                </b-list-group-item>
                 <b-list-group-item
                   :key="order.dish"
-                  v-for="order in OrderListSecond"><strong>{{order.dish}} -- {{order.qty}}</strong></b-list-group-item>
+                  v-for="order in OrderListSecond.salads">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
+                <b-list-group-item>
+                  <strong>МЯСО</strong>
+                </b-list-group-item>
+                <b-list-group-item
+                  :key="order.dish"
+                  v-for="order in OrderListSecond.meat">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
+                <b-list-group-item>
+                  <strong>ГАРНИР</strong>
+                </b-list-group-item>
+                <b-list-group-item
+                  :key="order.dish"
+                  v-for="order in OrderListSecond.garnish">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
+                <b-list-group-item>
+                  <strong>ВТОРОЕ</strong>
+                </b-list-group-item>
+                <b-list-group-item
+                  :key="order.dish"
+                  v-for="order in OrderListSecond.second">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
               </b-list-group>
 
             </b-card>
@@ -74,32 +140,6 @@
 
 <script>
 import axios from 'axios'
-
-function mapOrder (order) {
-  let dishes = order.map(order => order.order)
-
-  function onlyUnique (value, index, self) {
-    return self.indexOf(value) === index && value !== ''
-  }
-  dishes = dishes.flat().flatMap(order => {
-    order.shift()
-    order.pop()
-    return order
-  })
-  let disdinctDishes = dishes.filter(onlyUnique)
-
-  disdinctDishes.forEach((currentDish, i) => {
-    let quantity = 0
-    dishes.forEach(dish => {
-      if (currentDish === dish) {
-        quantity++
-      }
-    })
-    disdinctDishes[i] = {dish: currentDish, qty: quantity}
-  })
-
-  return disdinctDishes
-}
 
 export default {
   name: 'GoogleTables',
@@ -198,44 +238,82 @@ export default {
   },
   computed: {
     OrderListFirst () {
-      let dishes = this.orders.firstDir.map(order => order.order)
+      let orders = this.orders.firstDir.flatMap(order => order.order.map(order => {
+        return {salads: order[0], garnish: order[1], meat: order[2], second: order[3]}
+      }))
 
       function onlyUnique (value, index, self) {
-        return self.indexOf(value) === index && value !== ''
+        return self.indexOf(value) === index && value && value !== '' && value !== 'САЛАТЫ' && value !== 'ОСНОВНОЕ ГОРЯЧЕЕ'
       }
 
-      let disdinctDishes = dishes.flat(2).filter(onlyUnique)
-      disdinctDishes.forEach((currentDish, i) => {
-        let quantity = 0
-        dishes.flat(2).forEach(dish => {
-          if (currentDish === dish) {
-            quantity++
-          }
-        })
-        disdinctDishes[i] = {dish: currentDish, qty: quantity}
-      })
+      function countDishes (dishes) {
+        const uniqueDishes = dishes.filter(onlyUnique)
+        let countedDishes = []
 
-      return disdinctDishes
+        uniqueDishes.forEach(dishUnique => {
+          let qty = 0
+
+          dishes.forEach(dish => {
+            if (dish === dishUnique) {
+              qty++
+            }
+          })
+          countedDishes.push({dish: dishUnique ? dishUnique.split('(')[0] : dishUnique, qty: qty})
+        })
+
+        return countedDishes
+      }
+
+      let salads = orders.map(order => order.salads)
+      let garnish = orders.map(order => order.garnish)
+      let meat = orders.map(order => order.meat)
+      let second = orders.map(order => order.second)
+
+      return {
+        salads: countDishes(salads),
+        garnish: countDishes(garnish),
+        meat: countDishes(meat),
+        second: countDishes(second)
+      }
     },
     OrderListSecond () {
-      let dishes = this.orders.secondDir.map(order => order.order)
+      let orders = this.orders.secondDir.flatMap(order => order.order.map(order => {
+        return {salads: order[0], garnish: order[1], meat: order[2], second: order[3]}
+      }))
 
       function onlyUnique (value, index, self) {
-        return self.indexOf(value) === index && value !== ''
+        return self.indexOf(value) === index && value && value !== '' && value !== 'САЛАТЫ' && value !== 'ОСНОВНОЕ ГОРЯЧЕЕ'
       }
 
-      let disdinctDishes = dishes.flat(2).filter(onlyUnique)
-      disdinctDishes.forEach((currentDish, i) => {
-        let quantity = 0
-        dishes.flat(2).forEach(dish => {
-          if (currentDish === dish) {
-            quantity++
-          }
-        })
-        disdinctDishes[i] = {dish: currentDish, qty: quantity}
-      })
+      function countDishes (dishes) {
+        const uniqueDishes = dishes.filter(onlyUnique)
+        let countedDishes = []
 
-      return disdinctDishes
+        uniqueDishes.forEach(dishUnique => {
+          let qty = 0
+
+          dishes.forEach(dish => {
+            if (dish === dishUnique) {
+              qty++
+            }
+          })
+          countedDishes.push({dish: dishUnique ? dishUnique.split('(')[0] : dishUnique, qty: qty})
+        })
+
+        return countedDishes
+      }
+
+      let salads = orders.map(order => order.salads)
+      let garnish = orders.map(order => order.garnish)
+      let meat = orders.map(order => order.meat)
+      let second = orders.map(order => order.second)
+
+      return {
+        salads: countDishes(salads),
+        garnish: countDishes(garnish),
+        meat: countDishes(meat),
+        second: countDishes(second)
+      }
     }
   }
 }
