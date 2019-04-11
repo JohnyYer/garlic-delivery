@@ -13,6 +13,7 @@ import Order from '@/components/Order'
 import CustomMenu from '@/components/CustomMenu'
 import Orders from '@/components/admin/Orders'
 import GoogleTables from '@/components/admin/GoogleTables'
+import OrdersBilling from '@/components/admin/OrdersBilling'
 
 Vue.use(Router)
 
@@ -86,6 +87,11 @@ export default new Router({
       path: '/tables',
       name: 'DeliveryTables',
       component: GoogleTables
+    },
+    {
+      path: '/bills',
+      name: 'OrdersBilling',
+      component: OrdersBilling
     }
   ]
 })
