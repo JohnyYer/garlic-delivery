@@ -30,8 +30,8 @@
 
     <div class="container">
         <div class="col" :key="i" v-if="sticker" v-for="(sticker, i) in stickers">
-          <span>{{sticker.companyName}}</span>
-          <span>{{sticker.name}}</span>
+          <span class="company">{{sticker.companyName}}</span>
+          <strong>{{sticker.name}}</strong>
           <span>{{sticker.dish}}</span>
         </div>
     </div>
@@ -160,6 +160,12 @@ export default {
     padding: 14px;
     text-align: center;
     float: left;
+  }
+
+  .company {
+    font-size: 15px;
+    text-decoration: underline;
+    text-align: right;
   }
 
   .col span {
