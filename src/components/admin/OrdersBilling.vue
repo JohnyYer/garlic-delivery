@@ -32,9 +32,12 @@
 
       <div class="row">
         <div class="col-md-12">
-          <div class="panel panel-default" :key="order.companyName" v-for="order in filteredOrders">
+          <div class="panel panel-default" :key="order.companyName" v-if="order.order.length !== 0" v-for="order in filteredOrders">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>{{order.companyName}}</strong></h3>
+              <h3 class="panel-title"><strong>{{order.companyName}} {{order.order.length}}</strong></h3>
+              <span>В - {{order.forks}}  </span>
+              <span>Л - {{order.spoons}}  </span>
+              <span>Хлеб - белый:{{order.bread.white}}; серый:{{order.bread.black}}; </span>
             </div>
             <div class="panel-body">
               <div class="table-responsive">
@@ -166,10 +169,30 @@ export default {
     filteredOrders () {
       this.orders.map(company => {
         let total = 0
+        let forks = 0
+        let spoons = 0
+        let bread = { white: 0, black: 0 }
+
+        forks += company.order.length
         company.order.forEach(order => {
+          if (order[4] !== '') {
+            spoons++
+          }
+          if (order[5] !== '') {
+            let breadCount = order[5].indexOf(1) ? 1 : 2
+
+            if (order[5].indexOf('белый') >= 0) {
+              bread.white += breadCount
+            } else {
+              bread.black += breadCount
+            }
+          }
           total += parseInt(order[6])
         })
         company.total = total
+        company.forks = forks
+        company.spoons = spoons
+        company.bread = bread
 
         return company
       })
@@ -196,5 +219,13 @@ export default {
 
   .table > tbody > tr > .thick-line {
     border-top: 2px solid;
+  }
+
+  .panel {
+    page-break-after: always
+  }
+
+  .panel-heading span {
+    float: right;
   }
 </style>
