@@ -14,6 +14,7 @@ import CustomMenu from '@/components/CustomMenu'
 import Orders from '@/components/admin/Orders'
 import GoogleTables from '@/components/admin/GoogleTables'
 import OrdersBilling from '@/components/admin/OrdersBilling'
+import Stickers from '@/components/admin/Stickers'
 
 Vue.use(Router)
 
@@ -92,6 +93,11 @@ export default new Router({
       path: '/bills',
       name: 'OrdersBilling',
       component: OrdersBilling
+    },
+    {
+      path: '/stickers',
+      name: 'Stickers',
+      component: Stickers
     }
   ]
 })

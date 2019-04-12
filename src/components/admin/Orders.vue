@@ -12,6 +12,7 @@
         <b-nav-item href="/admin">Меню</b-nav-item>
         <b-nav-item href="/orders">Заказы</b-nav-item>
         <b-nav-item href='/tables'>На печать</b-nav-item>
+        <b-nav-item href='/stickers'>Наклейки</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
