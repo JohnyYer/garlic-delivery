@@ -129,7 +129,7 @@ export default {
 
       let formSticker = function (companyName, name, dish) {
 
-        return dish !== '' && dish !== '\'<br>\'' ? {
+        return dish !== '' && dish !== '<br>' ? {
           companyName: companyName,
           name: name,
           dish: dish
