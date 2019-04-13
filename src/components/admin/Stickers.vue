@@ -28,13 +28,13 @@
       </b-collapse>
     </b-navbar>
 
-    <div class="container">
-        <div class="col" :key="i" v-if="sticker" v-for="(sticker, i) in stickers">
-          <span class="company">{{sticker.companyName}}</span>
-          <strong>{{sticker.name}}</strong>
-          <span>{{sticker.dish}}</span>
-        </div>
-    </div>
+      <div class="page">
+          <div class="col" :key="i" v-if="sticker" v-for="(sticker, i) in stickers">
+            <span class="company">{{sticker.companyName}}</span>
+            <strong>{{sticker.name}}</strong>
+            <div v-html="sticker.dish"></div>
+          </div>
+      </div>
 
   </div>
 </template>
@@ -128,7 +128,8 @@ export default {
       let stickers = []
 
       let formSticker = function (companyName, name, dish) {
-        return dish !== '' ? {
+
+        return dish !== '' && dish !== '\'<br>\'' ? {
           companyName: companyName,
           name: name,
           dish: dish
@@ -137,8 +138,7 @@ export default {
 
       this.orders.flat().forEach(order => {
         stickers.push(formSticker(order[7], order[0], order[1]))
-        stickers.push(formSticker(order[7], order[0], order[2]))
-        stickers.push(formSticker(order[7], order[0], order[3]))
+        stickers.push(formSticker(order[7], order[0], order[2] + '<br>' + order[3]))
         stickers.push(formSticker(order[7], order[0], order[4]))
       })
 
@@ -149,14 +149,44 @@ export default {
 </script>
 
 <style scoped>
-  @page {
+  body {
     margin: 0;
     padding: 0;
   }
+  * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+  .page {
+    width: 21cm;
+    min-height: 29.7cm;
+    margin: 1cm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  @media print {
+    .page {
+      margin: 0;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      min-height: initial;
+      box-shadow: initial;
+      background: initial;
+      page-break-after: always;
+    }
+  }
 
   .col {
-    height: 2.97cm;
-    width: 7cm;
+    height: 140px;
+    width: 25%;
     padding: 14px;
     text-align: center;
     float: left;
