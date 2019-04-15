@@ -177,7 +177,7 @@ export default {
             spoons++
           }
           if (order[5] !== '') {
-            let breadCount = order[5].indexOf(1) ? 1 : 2
+            let breadCount = order[5].indexOf(1) !== -1 ? 1 : 2
 
             if (order[5].indexOf('белый') >= 0) {
               bread.white += breadCount

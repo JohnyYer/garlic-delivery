@@ -134,11 +134,12 @@ export default {
         } : false
       }
 
-      this.orders.flat().forEach(order => {
-        stickers.push(formSticker(order[7], order[0], order[1]))
-        stickers.push(formSticker(order[7], order[0], order[2] + '<br>' + order[3]))
-        stickers.push(formSticker(order[7], order[0], order[4]))
-      })
+      this.orders.flat().forEach((order, index) => {
+        const name = order[0] !== '' ? order[0] : this.orders.flat()[index - 1][0]
+        stickers.push(formSticker(order[7], name, order[1]))
+        stickers.push(formSticker(order[7], name, order[2] + '<br>' + order[3]))
+        stickers.push(formSticker(order[7], name, order[4]))
+      }, this)
 
       return stickers
     }
