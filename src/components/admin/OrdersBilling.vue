@@ -27,6 +27,13 @@
       </b-collapse>
     </b-navbar>
 
+    <div class="btn-group week-days" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" :key="day.value"
+              v-for="day in week"
+              :class="{'active': day === currentDay}"
+              @click="updateTables(day)">{{ day.value }}</button>
+    </div>
+
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -87,6 +94,29 @@ export default {
   name: 'OrdersBilling',
   data () {
     return {
+      week: [
+        {
+          value: 'ПН',
+          title: 'Понедельник'
+        },
+        {
+          value: 'ВТ',
+          title: 'Вторник'
+        },
+        {
+          value: 'СР',
+          title: 'Среда'
+        },
+        {
+          value: 'ЧТ',
+          title: 'Четверг'
+        },
+        {
+          value: 'ПТ',
+          title: 'Пятница'
+        }
+      ],
+      currentDay: '',
       userName: '',
       orders: [],
       clientTables: [
@@ -144,24 +174,9 @@ export default {
         }
       })
 
-    this.$getGapiClient()
-      .then(gapi => {
-        this.clientTables.forEach(setting => {
-          gapi.client.sheets.spreadsheets.values
-            .get({
-              spreadsheetId: setting.spreadsheetId,
-              range: 'B3:H30'
-            })
-            .then(res => {
-              if (res.result.values) {
-                this.orders.push({
-                  companyName: setting.name,
-                  order: res.result.values.filter(order => order[6] !== '0')
-                })
-              }
-            })
-        })
-      })
+    const today = new Date().getDay() - 1
+    this.currentDay = this.week[today] ? this.week[today] : this.week[0]
+    this.updateTables(this.currentDay)
   },
   computed: {
     filteredOrders () {
@@ -197,6 +212,30 @@ export default {
 
       return this.orders
     }
+  },
+  methods: {
+    updateTables (day) {
+      this.currentDay = day
+      this.orders = []
+      this.$getGapiClient()
+        .then(gapi => {
+          this.clientTables.forEach(setting => {
+            gapi.client.sheets.spreadsheets.values
+              .get({
+                spreadsheetId: setting.spreadsheetId,
+                range: day.title + '!B3:H30'
+              })
+              .then(res => {
+                if (res.result.values) {
+                  this.orders.push({
+                    companyName: setting.name,
+                    order: res.result.values.filter(order => order[6] !== '0')
+                  })
+                }
+              })
+          })
+        })
+    }
   }
 }
 </script>
@@ -227,5 +266,12 @@ export default {
 
   .panel-heading span {
     float: right;
+  }
+
+  @media print
+  {
+    .week-days {
+      display: none;
+    }
   }
 </style>
