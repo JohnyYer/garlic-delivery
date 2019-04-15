@@ -1,27 +1,26 @@
 <template>
   <div>
-    <b-navbar toggleable='md' type='dark' variant='info'>
-
-      <b-navbar-toggle target='nav_collapse'></b-navbar-toggle>
-
-      <b-navbar-brand href='#'>NavBar</b-navbar-brand>
-
-      <b-collapse is-nav id='nav_collapse'>
-
+    <b-navbar toggleable="md" type="dark" variant="info">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-navbar-brand href="#">Garlic Admin</b-navbar-brand>
+      <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <b-nav-item href='/admin'>Меню</b-nav-item>
-          <b-nav-item href='/orders'>Заказы</b-nav-item>
-          <b-nav-item href='/tables'>На печать</b-nav-item>
+          <b-nav-item href="/admin">Меню</b-nav-item>
+          <b-nav-item href='/tables'>Бегунки</b-nav-item>
+          <b-nav-item href='/bills'>Чеки</b-nav-item>
+          <b-nav-item href='/stickers'>Наклейки</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
-        <b-navbar-nav class='ml-auto'>
+        <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
+
             <!-- Using button-content slot -->
-            <template slot='button-content'>
+            <template slot="button-content">
               <em>{{userName}}</em>
             </template>
-            <b-dropdown-item @click.prevent='logout()'>Выйти</b-dropdown-item>
+
+            <b-dropdown-item @click.prevent="logout()">Выйти</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
@@ -128,7 +127,6 @@ export default {
       let stickers = []
 
       let formSticker = function (companyName, name, dish) {
-
         return dish !== '' && dish !== '<br>' ? {
           companyName: companyName,
           name: name,
@@ -180,6 +178,7 @@ export default {
       min-height: initial;
       box-shadow: initial;
       background: initial;
+      padding-right: 5px;
       page-break-after: always;
     }
   }
@@ -190,6 +189,7 @@ export default {
     padding: 14px;
     text-align: center;
     float: left;
+    font-size: 14px;
   }
 
   .company {

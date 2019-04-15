@@ -1,28 +1,26 @@
 <template>
   <div>
-    <b-navbar toggleable='md' type='dark' variant='info'>
-
-      <b-navbar-toggle target='nav_collapse'></b-navbar-toggle>
-
-      <b-navbar-brand href='#'>NavBar</b-navbar-brand>
-
-      <b-collapse is-nav id='nav_collapse'>
-
+    <b-navbar toggleable="md" type="dark" variant="info">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-navbar-brand href="#">Garlic Admin</b-navbar-brand>
+      <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <b-nav-item href='/admin'>Меню</b-nav-item>
-          <b-nav-item href='/orders'>Заказы</b-nav-item>
-          <b-nav-item href='/tables'>На печать</b-nav-item>
+          <b-nav-item href="/admin">Меню</b-nav-item>
+          <b-nav-item href='/tables'>Бегунки</b-nav-item>
+          <b-nav-item href='/bills'>Чеки</b-nav-item>
           <b-nav-item href='/stickers'>Наклейки</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
-        <b-navbar-nav class='ml-auto'>
+        <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
+
             <!-- Using button-content slot -->
-            <template slot='button-content'>
+            <template slot="button-content">
               <em>{{userName}}</em>
             </template>
-            <b-dropdown-item @click.prevent='logout()'>Выйти</b-dropdown-item>
+
+            <b-dropdown-item @click.prevent="logout()">Выйти</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
@@ -30,12 +28,11 @@
     </b-navbar>
 
     <div class="container">
-
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-default" :key="order.companyName" v-if="order.order.length !== 0" v-for="order in filteredOrders">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>{{order.companyName}} {{order.order.length}}</strong></h3>
+              <h3 class="panel-title"><strong>{{order.companyName}}</strong></h3>
               <span>В - {{order.forks}}  </span>
               <span>Л - {{order.spoons}}  </span>
               <span>Хлеб - белый:{{order.bread.white}}; серый:{{order.bread.black}}; </span>
@@ -223,7 +220,9 @@ export default {
   }
 
   .panel {
-    page-break-after: always
+    page-break-after: always;
+    margin-top: 70px;
+    padding: 0 30px;
   }
 
   .panel-heading span {
