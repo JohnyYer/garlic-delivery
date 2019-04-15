@@ -179,7 +179,6 @@ export default {
       min-height: initial;
       box-shadow: initial;
       background: initial;
-      padding-right: 5px;
       page-break-after: always;
     }
   }
@@ -197,6 +196,7 @@ export default {
     font-size: 15px;
     text-decoration: underline;
     text-align: right;
+    margin-right: 10px;
   }
 
   .col span {
