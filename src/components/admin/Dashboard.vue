@@ -193,7 +193,7 @@ export default {
     filteredMenu () {
       return this.dishes.filter(
         dish => {
-          return dish.name.toLowerCase().search(this.filter.name.toLowerCase() >= 0) &&
+          return dish.name.toLowerCase().search(this.filter.name.toLowerCase()) !== -1 &&
             dish.type === this.filter.type
         })
     }

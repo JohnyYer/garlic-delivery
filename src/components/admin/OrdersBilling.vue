@@ -40,9 +40,9 @@
           <div class="panel panel-default" :key="order.companyName" v-if="order.order.length !== 0" v-for="order in filteredOrders">
             <div class="panel-heading">
               <h3 class="panel-title"><strong>{{order.companyName}}</strong></h3>
-              <span>В - {{order.forks}}  </span>
-              <span>Л - {{order.spoons}}  </span>
-              <span>Хлеб - белый:{{order.bread.white}}; серый:{{order.bread.black}}; </span>
+              <div>
+                <span>Хлеб: белый - <strong>{{order.bread.white}}</strong> серый - <strong>{{order.bread.black}}</strong>  Л - <strong>{{order.spoons}}</strong>  В - <strong>{{order.forks}}</strong></span>
+              </div>
             </div>
             <div class="panel-body">
               <div class="table-responsive">
