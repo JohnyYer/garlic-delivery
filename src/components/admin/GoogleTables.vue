@@ -131,6 +131,10 @@ export default {
         {
           name: 'Armeyskaya',
           spreadsheetId: '1897CojJfjMfLLTIhiDy3oXGrSlaO__-5M1UXg6RXK50'
+        },
+        {
+          name: 'Обсерваторный',
+          spreadsheetId: '1ubYj8k2zFszjxU2-6YpufI_Cjf6AOEQY-iev0e0OJn0'
         }
       ]
     }
