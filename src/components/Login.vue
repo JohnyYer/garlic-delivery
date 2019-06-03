@@ -8,20 +8,20 @@
           <b-alert show>{{error.message}}</b-alert>
         </div>
       </div>
-      <b-form @submit="onSubmit">
+      <b-form @submit.prevent="login">
         <b-form-group id="fieldsetHorizontal1"
                       horizontal
                       :label-cols="4"
                       breakpoint="md"
                       label="Имя">
-          <b-form-input id="username" v-model.trim="login.username"></b-form-input>
+          <b-form-input id="username" v-model.trim="username"></b-form-input>
         </b-form-group>
         <b-form-group id="fieldsetHorizontal"
                       horizontal
                       :label-cols="4"
                       breakpoint="md"
                       label="Пароль">
-          <b-form-input type="password" id="password" v-model.trim="login.password"></b-form-input>
+          <b-form-input type="password" id="password" v-model.trim="password"></b-form-input>
         </b-form-group>
         <b-button type="submit" variant="primary">Войти</b-button>
       </b-form>
@@ -32,35 +32,24 @@
 </template>
 
 <script>
-import axios from 'axios'
+import {AUTH_REQUEST} from '@/store/actions/auth'
 
 export default {
   name: 'Login',
   data () {
     return {
-      login: {},
+      username: '',
+      password: '',
       errors: []
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault()
-      axios.post(`/api/auth/login/`, this.login)
-        .then(response => {
-          localStorage.setItem('jwtToken', response.data.token)
-          localStorage.setItem('userName', response.data.userData.username)
-          this.$router.push({
-            name: 'Admin'
-          })
+    login () {
+      const { username, password } = this
+      this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
+        this.$router.push({
+          name: 'Admin'
         })
-        .catch(e => {
-          console.log(e)
-          this.errors.push(e)
-        })
-    },
-    register () {
-      this.$router.push({
-        name: 'Register'
       })
     }
   }

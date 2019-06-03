@@ -1,31 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="md" type="dark" variant="info">
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand href="#">Garlic Admin</b-navbar-brand>
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <b-nav-item href="/admin">Меню</b-nav-item>
-          <b-nav-item href='/tables'>Бегунки</b-nav-item>
-          <b-nav-item href='/bills'>Чеки</b-nav-item>
-          <b-nav-item href='/stickers'>Наклейки</b-nav-item>
-        </b-navbar-nav>
-
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown right>
-
-            <!-- Using button-content slot -->
-            <template slot="button-content">
-              <em>{{userName}}</em>
-            </template>
-
-            <b-dropdown-item @click.prevent="logout()">Выйти</b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav>
-
-      </b-collapse>
-    </b-navbar>
+    <top-menu></top-menu>
     <!-- Main container -->
     <b-container fluid>
       <b-row class="filter">
@@ -146,36 +121,15 @@ export default {
     }
   },
   created () {
-    axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken')
-    axios.get('/api/auth/users')
-      .then(response => {
-        this.users = response.data
-      })
-      .catch(e => {
-        if (e.response.status === 401) {
-          this.$router.push({
-            name: 'Login'
-          })
-        }
-      })
-
     axios.get(`/api/dish`)
       .then(response => {
         this.dishes = response.data
-        this.userName = localStorage.getItem('userName')
       })
       .catch(e => {
         this.errors.push(e)
       })
   },
   methods: {
-    logout () {
-      localStorage.removeItem('jwtToken')
-      localStorage.removeItem('userName')
-      this.$router.push({
-        name: 'Index'
-      })
-    },
     editDish (dish) {
       this.currentDish = dish
     },

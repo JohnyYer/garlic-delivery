@@ -1,31 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="md" type="dark" variant="info">
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand href="#">Garlic Admin</b-navbar-brand>
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <b-nav-item href="/admin">Меню</b-nav-item>
-          <b-nav-item href='/tables'>Бегунки</b-nav-item>
-          <b-nav-item href='/bills'>Чеки</b-nav-item>
-          <b-nav-item href='/stickers'>Наклейки</b-nav-item>
-        </b-navbar-nav>
-
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown right>
-
-            <!-- Using button-content slot -->
-            <template slot="button-content">
-              <em>{{userName}}</em>
-            </template>
-
-            <b-dropdown-item @click.prevent="logout()">Выйти</b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav>
-
-      </b-collapse>
-    </b-navbar>
+    <top-menu></top-menu>
 
     <div class="container">
       <b-row class="text-center">
@@ -87,7 +62,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import TABLES from '@/components/admin/components/tables'
 
 export default {
   name: 'GoogleTables',
@@ -95,65 +70,10 @@ export default {
     return {
       userName: '',
       orders: [],
-      clientTables: [
-        {
-          name: 'CallStar',
-          spreadsheetId: '1zN3l9Tr_g61G4sdE66uMyflASnEEG6bO69_KIITNpcw'
-        },
-        {
-          name: 'CallStar 19b',
-          spreadsheetId: '1_UK5QfAtHP2-1w4Dd70IBuPAKOf2IftIE_aatULxvlI'
-        },
-        {
-          name: 'Варамар',
-          spreadsheetId: '1nifWFxerRXWZFtUCeXKgF0OBXK07bnyiheGo1_IRSNw'
-        },
-        {
-          name: 'Стоматология',
-          spreadsheetId: '13KQwINnab4WeQ-ktRqLUBLCLr8YHMuz8lPJSBpFi5io'
-        },
-        {
-          name: 'DataArt',
-          spreadsheetId: '1QN1HADHAB-KuBhndAMrJijj1g6w6SV471-qJn6oPVwA'
-        },
-        {
-          name: 'ШитоКрыто',
-          spreadsheetId: '1mtLEEgx7xbkabUHfACWehXy0nYAu-1EM3KRTrAoqK44'
-        },
-        {
-          name: 'Capital',
-          spreadsheetId: '1hMm3o7qflBIfk8qqFI09ecIWDngwUAVuyqj7L_tC6FA'
-        },
-        {
-          name: 'SFM',
-          spreadsheetId: '1nvn2enDBzc1I2_1QKiejTOHroOVSUkHUInGTkHraPQU'
-        },
-        {
-          name: 'Armeyskaya',
-          spreadsheetId: '1897CojJfjMfLLTIhiDy3oXGrSlaO__-5M1UXg6RXK50'
-        },
-        {
-          name: 'Обсерваторный',
-          spreadsheetId: '1ubYj8k2zFszjxU2-6YpufI_Cjf6AOEQY-iev0e0OJn0'
-        }
-      ]
+      clientTables: TABLES
     }
   },
   created: function () {
-    axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken')
-    axios.get('/api/auth/users')
-      .then(response => {
-        this.users = response.data
-        this.userName = localStorage.getItem('userName')
-      })
-      .catch(e => {
-        if (e.response.status === 401) {
-          this.$router.push({
-            name: 'Login'
-          })
-        }
-      })
-
     this.$getGapiClient()
       .then(gapi => {
         this.clientTables.forEach(setting => {

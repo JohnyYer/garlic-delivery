@@ -15,8 +15,25 @@ import Orders from '@/components/admin/Orders'
 import GoogleTables from '@/components/admin/GoogleTables'
 import OrdersBilling from '@/components/admin/OrdersBilling'
 import Stickers from '@/components/admin/Stickers'
+import store from '../store'
 
 Vue.use(Router)
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/')
+}
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/login')
+}
 
 export default new Router({
   mode: 'history',
@@ -65,39 +82,46 @@ export default new Router({
         {
           path: '/login',
           name: 'Login',
-          component: Login
+          component: Login,
+          beforeEnter: ifNotAuthenticated
         }
       ]
     },
     {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      beforeEnter: ifAuthenticated
     },
     {
       path: '/admin',
       name: 'Admin',
-      component: Dashboard
+      component: Dashboard,
+      beforeEnter: ifAuthenticated
     },
     {
       path: '/orders',
       name: 'Orders',
-      component: Orders
+      component: Orders,
+      beforeEnter: ifAuthenticated
     },
     {
       path: '/tables',
       name: 'DeliveryTables',
-      component: GoogleTables
+      component: GoogleTables,
+      beforeEnter: ifAuthenticated
     },
     {
       path: '/bills',
       name: 'OrdersBilling',
-      component: OrdersBilling
+      component: OrdersBilling,
+      beforeEnter: ifAuthenticated
     },
     {
       path: '/stickers',
       name: 'Stickers',
-      component: Stickers
+      component: Stickers,
+      beforeEnter: ifAuthenticated
     }
   ]
 })
