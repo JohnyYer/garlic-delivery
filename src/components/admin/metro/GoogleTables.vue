@@ -5,25 +5,6 @@
     <div class="container">
       <b-row class="text-center">
         <b-col cols="12">
-          <b-card-group deck>
-            <b-card no-body class="text-center"
-                    :key="direction.directionName"
-                    v-for="direction in OrderList.first"
-                    v-if="direction.dishes.length > 0">
-              <b-list-group flush>
-                <b-list-group-item>
-                  <strong>ПЕРВОЕ {{direction.directionName}}</strong>
-                </b-list-group-item>
-                <b-list-group-item
-                  :key="order.dish"
-                  v-for="order in direction.dishes">
-                  <span>{{order.dish}}</span>
-                  <strong>{{order.qty}}</strong>
-                </b-list-group-item>
-              </b-list-group>
-            </b-card>
-          </b-card-group>
-
             <b-card no-body class="text-center">
               <b-list-group flush>
                 <b-list-group-item>
@@ -87,12 +68,31 @@
                 </b-list-group-item>
                 <b-list-group-item
                   :key="order.dish"
-                  v-for="order in OrderList.souce">
+                  v-for="order in OrderList.desert">
                   <span>{{order.dish}}</span>
                   <strong>{{order.qty}}</strong>
                 </b-list-group-item>
               </b-list-group>
             </b-card>
+
+          <b-card-group deck>
+            <b-card no-body class="text-center"
+                    :key="direction.directionName"
+                    v-for="direction in OrderList.first"
+                    v-if="direction.dishes.length > 0">
+              <b-list-group flush>
+                <b-list-group-item>
+                  <strong>ПЕРВОЕ {{direction.directionName}}</strong>
+                </b-list-group-item>
+                <b-list-group-item
+                  :key="order.dish"
+                  v-for="order in direction.dishes">
+                  <span>{{order.dish}}</span>
+                  <strong>{{order.qty}}</strong>
+                </b-list-group-item>
+              </b-list-group>
+            </b-card>
+          </b-card-group>
         </b-col>
       </b-row>
     </div>
@@ -118,7 +118,7 @@ export default {
           gapi.client.sheets.spreadsheets.values
             .get({
               spreadsheetId: setting.spreadsheetId,
-              range: setting.range
+              range: setting.sheetName + '!D3:J150'
             })
             .then(res => {
               if (res.result.values) {

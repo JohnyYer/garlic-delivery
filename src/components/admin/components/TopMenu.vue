@@ -14,6 +14,7 @@
           </template>
           <b-dropdown-item href="/metro-billing">Чеки</b-dropdown-item>
           <b-dropdown-item href="/metro-tables">Бегунки</b-dropdown-item>
+          <b-dropdown-item href="/metro-stickers">Наклейки</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 

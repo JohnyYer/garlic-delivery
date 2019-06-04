@@ -36,14 +36,14 @@
                   </thead>
                   <tbody>
                   <tr :key="index" v-for="(item, index) in company.orders">
-                    <td>{{item[0]}}</td>
-                    <td class="text-center">{{item[1] || '---'}}</td>
-                    <td class="text-center">{{item[2] || '---'}}</td>
+                    <td>{{item[0]}}/{{item[1]}}</td>
                     <td class="text-center">{{item[3] || '---'}}</td>
                     <td class="text-center">{{item[4] || '---'}}</td>
                     <td class="text-center">{{item[5] || '---'}}</td>
                     <td class="text-center">{{item[6] || '---'}}</td>
-                    <td class="text-right">{{item[7] || '---'}}</td>
+                    <td class="text-center">{{item[7] || '---'}}</td>
+                    <td class="text-center">{{item[8] || '---'}}</td>
+                    <td class="text-right">{{item[9] || '---'}}</td>
                   </tr>
                   <tr>
                     <td class="thick-line"></td>
@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     ordersByCompanies () {
-      const distinctCompanies = [...new Set(this.orders.map(order => order[0]))]
+      const distinctCompanies = [...new Set(this.orders.map(order => order[2]))]
       const companies = []
 
       const countMisc = function (orders) {
@@ -126,14 +126,14 @@ export default {
           if (order[4] !== '') {
             misc.spoons++
           }
-          misc.total += parseInt(order[7])
+          misc.total += parseInt(order[9])
         })
 
         return misc
       }
 
       distinctCompanies.forEach(companyName => {
-        const companyOrder = this.orders.filter(order => order[0] === companyName)
+        const companyOrder = this.orders.filter(order => order[2] === companyName)
         companies.push({companyName: companyName, orders: companyOrder, misc: countMisc(companyOrder)})
       })
 
@@ -149,11 +149,11 @@ export default {
           gapi.client.sheets.spreadsheets.values
             .get({
               spreadsheetId: this.clientTables[0].spreadsheetId,
-              range: this.selectedDirection + '!C3:J150'
+              range: this.selectedDirection + '!A3:J150'
             })
             .then(res => {
               if (res.result.values) {
-                this.orders = res.result.values.filter(order => order[7] !== '0'
+                this.orders = res.result.values.filter(order => order[9] !== '0'
                 )
               }
             })

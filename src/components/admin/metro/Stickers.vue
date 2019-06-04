@@ -1,6 +1,12 @@
 <template>
   <div>
     <top-menu></top-menu>
+    <div class="btn-group week-days" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" :key="direction.value"
+              v-for="direction in directions"
+              :class="{'active': direction.value === selectedDirection}"
+              @click="updateTables(direction)">{{ direction.value }}</button>
+    </div>
     <div class="page">
           <div class="col" :key="i" v-if="sticker" v-for="(sticker, i) in stickers">
             <span class="company">{{sticker.companyName}}</span>
@@ -13,37 +19,40 @@
 </template>
 
 <script>
-import TABLES from '@/components/admin/components/tables'
+import TABLES from '@/components/admin/components/metro-tables'
 
 export default {
   name: 'Stickers',
   data () {
     return {
-      userName: '',
       orders: [],
+      directions: [
+        {
+          value: 'I',
+          title: 'I'
+        },
+        {
+          value: 'II',
+          title: 'II'
+        },
+        {
+          value: 'III',
+          title: 'III'
+        },
+        {
+          value: 'IV',
+          title: 'IV'
+        }
+      ],
+      selectedDirection: {
+        value: 'I',
+        title: 'I'
+      },
       clientTables: TABLES
     }
   },
   created: function () {
-    this.$getGapiClient()
-      .then(gapi => {
-        this.clientTables.forEach(setting => {
-          gapi.client.sheets.spreadsheets.values
-            .get({
-              spreadsheetId: setting.spreadsheetId,
-              range: 'B3:H30'
-            })
-            .then(res => {
-              if (res.result.values) {
-                this.orders.push(res.result.values.filter(order => order[6] !== '0')
-                  .map(order => {
-                    order.push(setting.name)
-                    return order
-                  }))
-              }
-            })
-        })
-      })
+    this.updateTables(this.selectedDirection)
   },
   computed: {
     stickers () {
@@ -57,14 +66,36 @@ export default {
         } : false
       }
 
-      this.orders.flat().forEach((order, index) => {
-        const name = order[0] !== '' ? order[0] : this.orders.flat()[index - 1][0]
-        stickers.push(formSticker(order[7], name, order[1]))
-        stickers.push(formSticker(order[7], name, order[2] + '<br>' + order[3]))
-        stickers.push(formSticker(order[7], name, order[4]))
+      this.orders.forEach((order, index) => {
+        const name = order[0] + '/' + order[1]
+        stickers.push(formSticker(order[2], name, order[3]))
+        stickers.push(formSticker(order[2], name, order[4] + '<br>' + order[5]))
+        stickers.push(formSticker(order[2], name, order[6]))
+        stickers.push(formSticker(order[2], name, order[7]))
+        stickers.push(formSticker(order[2], name, order[8]))
       }, this)
 
       return stickers
+    }
+  },
+  methods: {
+    updateTables (direction) {
+      this.selectedDirection = direction.value
+      this.orders = []
+      this.$getGapiClient()
+        .then(gapi => {
+          gapi.client.sheets.spreadsheets.values
+            .get({
+              spreadsheetId: this.clientTables[0].spreadsheetId,
+              range: this.selectedDirection + '!A3:J150'
+            })
+            .then(res => {
+              if (res.result.values) {
+                this.orders = res.result.values.filter(order => order[9] !== '0'
+                )
+              }
+            })
+        })
     }
   }
 }
