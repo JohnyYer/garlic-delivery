@@ -5,7 +5,7 @@
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
         <b-nav-item href="/admin">Меню</b-nav-item>
-        <b-nav-item href='/tables/garlic'>Бегунки</b-nav-item>
+        <b-nav-item href='/tables'>Бегунки</b-nav-item>
         <b-nav-item href='/bills'>Чеки</b-nav-item>
         <b-nav-item href='/stickers'>Наклейки</b-nav-item>
         <b-nav-item-dropdown>
@@ -13,6 +13,7 @@
             <em>METRO</em>
           </template>
           <b-dropdown-item href="/metro-billing">Чеки</b-dropdown-item>
+          <b-dropdown-item href="/metro-tables">Бегунки</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
