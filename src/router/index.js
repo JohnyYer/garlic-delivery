@@ -15,6 +15,10 @@ import Orders from '@/components/admin/Orders'
 import GoogleTables from '@/components/admin/GoogleTables'
 import OrdersBilling from '@/components/admin/OrdersBilling'
 import Stickers from '@/components/admin/Stickers'
+import MetroStickers from '@/components/admin/metro/Stickers'
+import MetroOrdersBilling from '@/components/admin/metro/OrdersBilling'
+import MetroGoogleTables from '@/components/admin/metro/GoogleTables'
+
 import store from '../store'
 
 Vue.use(Router)
@@ -122,6 +126,25 @@ export default new Router({
       name: 'Stickers',
       component: Stickers,
       beforeEnter: ifAuthenticated
-    }
+    },
+    {
+      path: '/metro-stickers',
+      name: 'MetroStickers',
+      component: MetroStickers,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/metro-billing',
+      name: 'MetroOrdersBilling',
+      component: MetroOrdersBilling,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/metro-tables',
+      name: 'MetroGoogleTables',
+      component: MetroGoogleTables,
+      beforeEnter: ifAuthenticated
+    },
+    { path: '*', redirect: '/' }
   ]
 })
