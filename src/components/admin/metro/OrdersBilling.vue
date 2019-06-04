@@ -12,11 +12,11 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <div class="panel panel-default" v-if="orders.length !== 0">
+          <div class="panel panel-default" v-if="orders.length !== 0" :key="company.companyName" v-for="company in ordersByCompanies">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>{{selectedDirection}} направление</strong></h3>
+              <h3 class="panel-title"><strong>{{company.companyName}}</strong></h3>
               <div>
-                <span>Л - <strong>{{countMisc.spoons}}</strong>  В - <strong>{{countMisc.forks}}</strong></span>
+                <span>Л - <strong>{{company.misc.spoons}}</strong>  В - <strong>{{company.misc.forks}}</strong></span>
               </div>
             </div>
             <div class="panel-body">
@@ -35,7 +35,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr :key="index" v-for="(item, index) in orders">
+                  <tr :key="index" v-for="(item, index) in company.orders">
                     <td>{{item[0]}}</td>
                     <td class="text-center">{{item[1] || '---'}}</td>
                     <td class="text-center">{{item[2] || '---'}}</td>
@@ -53,7 +53,7 @@
                     <td class="thick-line"></td>
                     <td class="thick-line"></td>
                     <td class="thick-line text-center"><strong>Сумма</strong></td>
-                    <td class="thick-line text-right">{{countMisc.total}}грн</td>
+                    <td class="thick-line text-right">{{company.misc.total}}грн</td>
                   </tr>
                   </tbody>
                 </table>
@@ -112,20 +112,32 @@ export default {
     this.updateTables(this.selectedDirection)
   },
   computed: {
-    countMisc () {
-      const misc = {
-        total: 0,
-        forks: this.orders.length,
-        spoons: 0
-      }
-      this.orders.forEach(order => {
-        if (order[4] !== '') {
-          misc.spoons++
+    ordersByCompanies () {
+      const distinctCompanies = [...new Set(this.orders.map(order => order[0]))]
+      const companies = []
+
+      const countMisc = function (orders) {
+        const misc = {
+          total: 0,
+          forks: orders.length,
+          spoons: 0
         }
-        misc.total += parseInt(order[7])
+        orders.forEach(order => {
+          if (order[4] !== '') {
+            misc.spoons++
+          }
+          misc.total += parseInt(order[7])
+        })
+
+        return misc
+      }
+
+      distinctCompanies.forEach(companyName => {
+        const companyOrder = this.orders.filter(order => order[0] === companyName)
+        companies.push({companyName: companyName, orders: companyOrder, misc: countMisc(companyOrder)})
       })
 
-      return misc
+      return companies
     }
   },
   methods: {
