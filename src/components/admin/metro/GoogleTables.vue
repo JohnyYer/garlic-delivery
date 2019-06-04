@@ -199,5 +199,6 @@ export default {
 <style scoped>
   .card-deck {
     padding: 10px;
+    page-break-before: always;
   }
 </style>
