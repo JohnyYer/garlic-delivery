@@ -157,4 +157,11 @@ export default {
     display: flex;
     flex-direction: column;
   }
+
+  @media print
+  {
+    .week-days {
+      display: none;
+    }
+  }
 </style>

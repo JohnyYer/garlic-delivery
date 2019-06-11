@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-menu></top-menu>
-    <div>
+    <div class="dish-form">
       <b-card bg-variant="light">
         <b-form-group
           label-cols-lg="3"
@@ -127,5 +127,12 @@ export default {
 
   img {
     width: 60px
+  }
+
+  @media print
+  {
+    .dish-form {
+      display: none;
+    }
   }
 </style>
