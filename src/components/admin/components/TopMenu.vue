@@ -8,6 +8,7 @@
         <b-nav-item href='/tables'>Бегунки</b-nav-item>
         <b-nav-item href='/bills'>Чеки</b-nav-item>
         <b-nav-item href='/stickers'>Наклейки</b-nav-item>
+        <b-nav-item href='/refregerator'>Холодос</b-nav-item>
         <b-nav-item-dropdown>
           <template slot="button-content">
             <em>METRO</em>

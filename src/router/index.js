@@ -18,6 +18,7 @@ import Stickers from '@/components/admin/Stickers'
 import MetroStickers from '@/components/admin/metro/Stickers'
 import MetroOrdersBilling from '@/components/admin/metro/OrdersBilling'
 import MetroGoogleTables from '@/components/admin/metro/GoogleTables'
+import Refregerator from '@/components/admin/Refregerator'
 
 import store from '../store'
 
@@ -125,6 +126,12 @@ export default new Router({
       path: '/stickers',
       name: 'Stickers',
       component: Stickers,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/refregerator',
+      name: 'Refregerator',
+      component: Refregerator,
       beforeEnter: ifAuthenticated
     },
     {
