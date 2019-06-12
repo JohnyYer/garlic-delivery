@@ -28,6 +28,15 @@
             <b-form-input id="nested-city" v-model="dish.qty"></b-form-input>
           </b-form-group>
 
+          <b-form-group
+            label-cols-sm="3"
+            label="Цена"
+            label-align-sm="right"
+            label-for="nested-city"
+          >
+            <b-form-input id="nested-city" v-model="dish.price"></b-form-input>
+          </b-form-group>
+
           <b-button @click="createStickers()">Сохранить</b-button>
 
         </b-form-group>
@@ -37,6 +46,7 @@
           <div class="col" :key="i" v-if="sticker" v-for="(sticker, i) in stickers">
             <span class="company">{{sticker.name}}</span>
             <img src="../../assets/img/NELLI_QR.jpg" alt="">
+            <span class="price">{{sticker.price}}</span>
           </div>
       </div>
 
@@ -51,7 +61,8 @@ export default {
     return {
       dish: {
         name: '',
-        qty: ''
+        qty: '',
+        price: ''
       },
       stickers: []
     }
@@ -63,7 +74,8 @@ export default {
     createStickers: function () {
       for (let i = 0; i <= this.dish.qty; i++) {
         this.stickers.push({
-          name: this.dish.name
+          name: this.dish.name,
+          price: this.dish.price
         })
       }
 
@@ -118,11 +130,16 @@ export default {
     font-size: 14px;
   }
 
-  .col span {
+  .col span.company {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
     font-weight: bold;
+  }
+
+  .price {
+    font-weight: bold;
+    font-size: 25px;
   }
 
   img {
