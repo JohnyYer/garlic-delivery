@@ -135,6 +135,7 @@ export default {
     flex-direction: column;
     margin-bottom: 10px;
     font-weight: bold;
+    font-size: 12px;
   }
 
   .price {
@@ -143,7 +144,7 @@ export default {
   }
 
   img {
-    width: 90px
+    width: 75px
   }
 
   @media print
