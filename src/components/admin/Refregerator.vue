@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     createStickers: function () {
-      for (let i = 0; i <= this.dish.qty; i++) {
+      for (let i = 0; i < this.dish.qty; i++) {
         this.stickers.push({
           name: this.dish.name,
           price: this.dish.price
@@ -143,7 +143,7 @@ export default {
   }
 
   img {
-    width: 60px
+    width: 90px
   }
 
   @media print
