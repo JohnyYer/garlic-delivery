@@ -38,6 +38,10 @@ const TABLES = [
   {
     name: 'Обсерваторный',
     spreadsheetId: '1ubYj8k2zFszjxU2-6YpufI_Cjf6AOEQY-iev0e0OJn0'
+  },
+  {
+    name: 'ТПЕ Греческая',
+    spreadsheetId: '1rniL-beFEFUl6TUdXZ4JWnMMQxdW6j4fVQH_AWKpxoU'
   }
 ]
 
