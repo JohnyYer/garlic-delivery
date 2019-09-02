@@ -45,7 +45,7 @@
     <div class="page">
           <div class="col" :key="i" v-if="sticker" v-for="(sticker, i) in stickers">
             <span class="company">{{sticker.name}}</span>
-            <img src="../../assets/img/NELLI_QR.jpg" alt="">
+            <img src="../../assets/img/qr_dima.jpg" alt="">
             <span class="price">{{sticker.price}}</span>
           </div>
       </div>
