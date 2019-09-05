@@ -147,7 +147,7 @@ export default {
             gapi.client.sheets.spreadsheets.values
               .get({
                 spreadsheetId: setting.spreadsheetId,
-                range: day.title + '!B3:H30'
+                range: day.title + '!B3:H50'
               })
               .then(res => {
                 if (res.result.values) {
