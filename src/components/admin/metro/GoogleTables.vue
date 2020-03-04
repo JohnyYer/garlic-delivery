@@ -11,8 +11,8 @@
                   <strong>САЛАТЫ</strong>
                 </b-list-group-item>
                 <b-list-group-item
-                  :key="order.dish"
-                  v-for="order in OrderList.salads">
+                  :key="index"
+                  v-for="(order, index) in OrderList.salads">
                   <span>{{order.dish}}</span>
                   <strong>{{order.qty}}</strong>
                 </b-list-group-item>
@@ -25,8 +25,8 @@
                   <strong>ГАРНИРЫ</strong>
                 </b-list-group-item>
                 <b-list-group-item
-                  :key="order.dish"
-                  v-for="order in OrderList.garnish">
+                  :key="index"
+                  v-for="(order, index) in OrderList.garnish">
                   <span>{{order.dish}}</span>
                   <strong>{{order.qty}}</strong>
                 </b-list-group-item>
@@ -39,8 +39,8 @@
                   <strong>ОСНОВНОЕ ГОРЯЧЕЕ</strong>
                 </b-list-group-item>
                 <b-list-group-item
-                  :key="order.dish"
-                  v-for="order in OrderList.main">
+                  :key="index"
+                  v-for="(order, index) in OrderList.main">
                   <span>{{order.dish}}</span>
                   <strong>{{order.qty}}</strong>
                 </b-list-group-item>
@@ -53,8 +53,8 @@
                   <strong>СОУС</strong>
                 </b-list-group-item>
                 <b-list-group-item
-                  :key="order.dish"
-                  v-for="order in OrderList.souce">
+                  :key="index"
+                  v-for="(order, index) in OrderList.souce">
                   <span>{{order.dish}}</span>
                   <strong>{{order.qty}}</strong>
                 </b-list-group-item>
@@ -118,14 +118,15 @@ export default {
           gapi.client.sheets.spreadsheets.values
             .get({
               spreadsheetId: setting.spreadsheetId,
-              range: setting.sheetName + '!D3:J150'
+              range: setting.sheetName ? setting.sheetName + '!D3:J150' : 'C3:F50'
             })
             .then(res => {
               if (res.result.values) {
                 this.orders.push(
                   {
                     companyName: setting.name,
-                    order: res.result.values
+                    order: res.result.values,
+                    direction: setting.direction
                   }
                 )
               }
@@ -137,12 +138,12 @@ export default {
     OrderList () {
       const orders = this.orders.flatMap(direction => direction.order.map(order => {
         return {
-          salads: order[0],
-          garnish: order[1],
-          main: order[2],
-          first: order[3],
-          souce: order[4],
-          desert: order[5]
+          salads: order[0] ? order[0].split('(')[0] : order[0],
+          garnish: order[1] ? order[1].split('(')[0] : order[1],
+          main: order[2] ? order[2].split('(')[0] : order[2],
+          first: order[3] ? order[3].split('(')[0] : order[3],
+          souce: order[4] ? order[4].split('(')[0] : order[4],
+          desert: order[5] ? order[5].split('(')[0] : order[5]
         }
       }))
 
@@ -179,8 +180,38 @@ export default {
 
         return {
           directionName: direction.companyName,
-          dishes: countDishes(dishes)
+          dishes: countDishes(dishes),
+          direction: direction.direction
         }
+      })
+
+      const computedFirstDishes = [
+        {
+          directionName: 'I',
+          dishes: []
+        },
+        {
+          directionName: 'II',
+          dishes: []
+
+        },
+        {
+          directionName: 'III',
+          dishes: []
+
+        },
+        {
+          directionName: 'IV',
+          dishes: []
+        }
+      ]
+
+      firstDishes.map(dish => {
+        computedFirstDishes.map((compDish, index) => {
+          if (compDish.directionName === dish.direction) {
+            compDish.dishes.push(...dish.dishes)
+          }
+        })
       })
 
       return {
@@ -189,7 +220,7 @@ export default {
         main: countDishes(main),
         souce: countDishes(souce),
         desert: countDishes(desert),
-        first: firstDishes
+        first: computedFirstDishes
       }
     }
   }
