@@ -136,16 +136,17 @@ export default {
   },
   computed: {
     OrderList () {
-      const orders = this.orders.flatMap(direction => direction.order.map(order => {
-        return {
-          salads: order[0] ? order[0].split('(')[0] : order[0],
-          garnish: order[1] ? order[1].split('(')[0] : order[1],
-          main: order[2] ? order[2].split('(')[0] : order[2],
-          first: order[3] ? order[3].split('(')[0] : order[3],
-          souce: order[4] ? order[4].split('(')[0] : order[4],
-          desert: order[5] ? order[5].split('(')[0] : order[5]
-        }
-      }))
+      const orders = this.orders
+        .flatMap(direction => direction.order.map(order => {
+          return {
+            salads: order[0] ? order[0].split('(')[0] : order[0],
+            garnish: order[1] ? order[1].split('(')[0] : order[1],
+            main: order[2] ? order[2].split('(')[0] : order[2],
+            first: order[3] ? order[3].split('(')[0] : order[3],
+            souce: order[4] ? order[4].split('(')[0] : order[4],
+            desert: order[5] ? order[5].split('(')[0] : order[5]
+          }
+        }))
 
       function onlyUnique (value, index, self) {
         return self.indexOf(value) === index && value && value !== '' && value !== 'САЛАТЫ' && value !== 'ОСНОВНОЕ ГОРЯЧЕЕ'
@@ -175,16 +176,6 @@ export default {
       let souce = orders.map(order => order.souce)
       let desert = orders.map(order => order.desert)
 
-      const firstDishes = this.orders.map(direction => {
-        const dishes = direction.order.map(order => order[3]).filter(item => item !== '')
-
-        return {
-          directionName: direction.companyName,
-          dishes: countDishes(dishes),
-          direction: direction.direction
-        }
-      })
-
       const computedFirstDishes = [
         {
           directionName: 'I',
@@ -206,13 +197,12 @@ export default {
         }
       ]
 
-      firstDishes.map(dish => {
-        computedFirstDishes.map((compDish, index) => {
-          if (compDish.directionName === dish.direction) {
-            compDish.dishes.push(...dish.dishes)
-          }
-        })
+      this.orders.map(direction => {
+        const dishes = direction.order.map(order => order[3]).filter(item => item && item !== '').map(item => item.split('(')[0])
+        computedFirstDishes.find(dishes => dishes.directionName === direction.direction).dishes.push(...dishes)
       })
+
+      computedFirstDishes.map(direction => { direction.dishes = countDishes(direction.dishes) })
 
       return {
         salads: countDishes(salads),
