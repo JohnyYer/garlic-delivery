@@ -31,7 +31,7 @@ export default {
           gapi.client.sheets.spreadsheets.values
             .get({
               spreadsheetId: setting.spreadsheetId,
-              range: 'B3:H50'
+              range: 'B3:H150'
             })
             .then(res => {
               if (res.result.values) {
