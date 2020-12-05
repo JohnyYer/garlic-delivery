@@ -118,7 +118,7 @@ export default {
           gapi.client.sheets.spreadsheets.values
             .get({
               spreadsheetId: setting.spreadsheetId,
-              range: setting.sheetName ? setting.sheetName + '!D3:J150' : 'C3:F50'
+              range: setting.sheetName ? setting.sheetName + '!D3:J150' : 'C3:F150'
             })
             .then(res => {
               if (res.result.values) {
