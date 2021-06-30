@@ -95,62 +95,52 @@ export default new Router({
     {
       path: '/register',
       name: 'Register',
-      component: Register,
-      beforeEnter: ifAuthenticated
+      component: Register
     },
     {
       path: '/admin',
       name: 'Admin',
-      component: Dashboard,
-      beforeEnter: ifAuthenticated
+      component: Dashboard
     },
     {
       path: '/orders',
       name: 'Orders',
       component: Orders,
-      beforeEnter: ifAuthenticated
     },
     {
       path: '/tables',
       name: 'DeliveryTables',
       component: GoogleTables,
-      beforeEnter: ifAuthenticated
     },
     {
       path: '/bills',
       name: 'OrdersBilling',
       component: OrdersBilling,
-      beforeEnter: ifAuthenticated
     },
     {
       path: '/stickers',
       name: 'Stickers',
       component: Stickers,
-      beforeEnter: ifAuthenticated
     },
     {
       path: '/refregerator',
       name: 'Refregerator',
       component: Refregerator,
-      beforeEnter: ifAuthenticated
     },
     {
       path: '/metro-stickers',
       name: 'MetroStickers',
       component: MetroStickers,
-      beforeEnter: ifAuthenticated
     },
     {
       path: '/metro-billing',
       name: 'MetroOrdersBilling',
       component: MetroOrdersBilling,
-      beforeEnter: ifAuthenticated
     },
     {
       path: '/metro-tables',
       name: 'MetroGoogleTables',
       component: MetroGoogleTables,
-      beforeEnter: ifAuthenticated
     },
     { path: '*', redirect: '/' }
   ]
